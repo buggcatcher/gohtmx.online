@@ -38,7 +38,7 @@ docker compose -f srcs/docker-compose.yml exec nginx \
 sudo docker compose -p gohtmx --project-directory srcs -f srcs/docker-compose.yml exec postgres psql -U <POSTGRES_USER> -d <POSTGRES_DB>
     \dt                             -- lista tabelle
     \d nome_tabella                 -- descrizione colonne di una tabella
-    SELECT * FROM utenti LIMIT 10;  -- guarda le righe (adatta il nome tabella) 
+    SELECT * FROM users LIMIT 10;   -- guarda le righe (adatta il nome tabella) 
     SELECT id, ip_address, city, canvas_hash, os, created_at FROM client_telemetry ORDER BY created_at DESC LIMIT 5;
 ```
 
