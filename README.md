@@ -42,16 +42,7 @@ sudo docker compose -p gohtmx --project-directory srcs -f srcs/docker-compose.ym
     SELECT id, ip_address, city, canvas_hash, os, created_at FROM client_telemetry ORDER BY created_at DESC LIMIT 5;
 ```
 
-# Punteggi
-Ci scusiamo per l'imprecisione nell'analisi precedente. Riesaminando approfonditamente l'intera codebase (compresi i dettagli di memorizzazione, la logica dei singoli file JS e i template), è stato possibile mappare in modo molto più dettagliato ogni funzionalità presente rispetto ai moduli del regolamento **ft_transcendence**.
-
-In particolare, l'osservazione sul salvataggio persistente dei dati di telemetria e fingerprinting nel database relazionale è corretta e permette di qualificare il sistema per moduli specifici di tracciamento e analisi.
-
-Ecco la mappatura completa ed esaustiva di tutti i punti modulo rilevati all'interno della codebase attuale.
-
----
-
-### Tabella dei Punti Modulo Rilevati nella Codebase
+## Punteggi
 
 | Modulo (da PDF) | Tipo | Punti | File e Funzioni di Riferimento | Giustificazione Tecnica e Logica di Implementazione |
 | :--- | :--- | :--- | :--- | :--- |
