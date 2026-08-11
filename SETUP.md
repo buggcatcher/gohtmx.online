@@ -3,7 +3,7 @@
 Questa guida ti aiuta a esportare e importare il progetto su un'altra macchina senza bug di portabilità.
 
 
-### 2. Configura le Credenziali
+### 1. Configura le Credenziali
 
 
 **Parametri critici da personalizzare:**
@@ -26,7 +26,7 @@ openssl rand -hex 32
 # Copia l'output e inseriscilo in .env
 ```
 
-### 4. Verifica il .env
+### 2. Verifica il .env
 
 ```bash
 cat srcs/.env
@@ -37,7 +37,7 @@ Accertati che:
 - APP_SECRET sia una stringa casuale lungo almeno 32 caratteri
 - Database username/password siano impostati
 
-### 5. Avvia il Sistema
+### 3. Avvia il Sistema
 
 Vedrai output:
 
