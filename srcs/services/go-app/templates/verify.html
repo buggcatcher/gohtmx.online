@@ -1,0 +1,51 @@
+<!-- srcs/services/go-app/templates/verify.html -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attivazione Account - GoHtmx</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        .verify-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .verify-box {
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 400px;
+            text-align: center;
+        }
+        .verify-box h1 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        .verify-box p {
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-wrapper">
+        <div class="verify-box">
+            <h1>Attivazione Account</h1>
+            <p>Fai clic sul pulsante qui sotto per confermare la tua identità e attivare il tuo account su GoHtmx V2.1.</p>
+            <form method="POST" action="/verify">
+                <input type="hidden" name="token" value="{{.Token}}">
+                <button type="submit" class="btn-primary" style="width: 100%;">Conferma e Accedi</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

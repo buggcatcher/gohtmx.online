@@ -1,0 +1,68 @@
+<div class="desktop-workspace" 
+     x-data="desktopManager('{{.Username}}', {{.IsGuest}})"
+     @contextmenu.prevent="showContextMenu($event, null)"
+     @dragover.prevent="!isGuest && (dragOver = true)"
+     @dragleave.prevent="dragOver = false"
+     @drop.prevent="handleDrop($event)"
+     :class="{ 'drag-active': dragOver }">
+    
+    <div class="top-navbar">
+        <span class="nav-logo">Solar City</span>
+        
+        <!-- Menu Utente Minimale -->
+        <div class="dropdown-container" x-data="{ openMenu: false }">
+            <span class="nav-user" @click="openMenu = !openMenu" x-text="isGuest ? 'Guest ▼' : ('Utente: ' + currentUser + ' ▼')"></span>
+            <div class="dropdown-menu" x-show="openMenu" @click.away="openMenu = false" style="display: none; width: 280px;">
+                <div class="dropdown-header" x-text="isGuest ? '📟 SESSIONE GUEST' : '📟 SESSIONE UTENTE'"></div>
+                <div style="padding: 12px; font-family: monospace; font-size: 0.8rem; line-height: 1.6;">
+                    <p style="margin: 0 0 6px 0;"><span style="color: #00ffcc;">IP ATTIVO:</span> <span x-text="userIP"></span></p>
+                    <p style="margin: 0 0 12px 0;"><span style="color: #00ffcc;">SESSIONE:</span> <span x-text="formatSessionTime()"></span></p>
+                    
+                    <div style="border-top: 1px dashed rgba(255, 255, 255, 0.15); padding-top: 12px; display: flex; justify-content: center;">
+                        <template x-if="isGuest">
+                            <a href="/" class="btn-primary" style="display: block; text-align: center; text-decoration: none; width: 100%; padding: 8px 12px; font-size: 0.85rem; box-sizing: border-box;">
+                                Accedi / Iscriviti
+                            </a>
+                        </template>
+                        <template x-if="!isGuest">
+                            <a href="/logout" class="btn-primary" style="display: block; text-align: center; text-decoration: none; width: 100%; padding: 8px 12px; font-size: 0.85rem; box-sizing: border-box; background-color: #ff5f56; color: white; box-shadow: 0 0 10px rgba(255, 95, 86, 0.4);">
+                                Esci (Logout)
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Griglia dei File -->
+    <div class="desktop-grid" @click="contextMenu.show = false">
+        <template x-for="file in files" :key="file.id">
+            <div class="desktop-icon" 
+                 @dblclick="openFile(file)"
+                 @contextmenu.prevent.stop="showContextMenu($event, file)">
+                <div class="icon-symbol" style="display: flex; align-items: center; justify-content: center; min-height: 48px;">
+                    <template x-if="file.icon.includes('/') || file.icon.includes('.')">
+                        <img :src="file.icon" style="width: 48px; height: 48px; object-fit: contain; pointer-events: none;" />
+                    </template>
+                    <template x-if="!file.icon.includes('/') && !file.icon.includes('.')">
+                        <span x-text="file.icon" style="font-size: 2.5rem; display: block; line-height: 1;"></span>
+                    </template>
+                </div>
+                <span x-text="file.name"></span>
+            </div>
+        </template>
+    </div>
+
+    <!-- Tasto Destro Menu -->
+    {{template "context_menu.html" .}}
+
+    <!-- Applicazioni desktop divise in moduli (templates/apps/) -->
+    {{template "editor.html" .}}
+    {{template "viewer.html" .}}
+    {{template "creator.html" .}}
+    {{template "terminal.html" .}}
+    {{template "inspector.html" .}}
+    {{template "metric.html" .}}
+
+</div>

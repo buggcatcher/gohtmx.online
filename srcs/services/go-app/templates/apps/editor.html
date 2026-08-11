@@ -1,0 +1,27 @@
+<div class="window-overlay" 
+     x-show="editor.show" 
+     :style="'left: ' + editor.px + 'px; top: ' + editor.py + 'px; width: 680px;'"
+     style="display: none;">
+    <div class="window-header" @mousedown="dragWindow($event, editor)">
+        <span x-text="'Editor - ' + (editor.targetFile ? editor.targetFile.name : '')"></span>
+        <button class="close-btn" @click="editor.show = false"></button>
+    </div>
+    <div class="window-body">
+        <!-- Rende l'area di testo readonly se l'utente è guest o se si tratta del readme di sistema -->
+        <textarea x-model="editor.tempContent" 
+                  :readonly="isGuest || (editor.targetFile && editor.targetFile.id === 'readme')" 
+                  style="width: 100%; height: 320px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 8px; resize: none; font-family: monospace; box-sizing: border-box;"></textarea>
+        
+        <!-- Pulsante di salvataggio disponibile solo se non si è guest e non si sta modificando il readme -->
+        <button class="btn-access" 
+                x-show="!isGuest && (editor.targetFile && editor.targetFile.id !== 'readme')" 
+                @click="saveFile()" 
+                style="margin-top: 10px; font-size: 0.9rem; padding: 6px 15px;">Salva Modifiche</button>
+        
+        <!-- Indicatore di stato e permessi in base al contesto del file caricato -->
+        <div x-show="isGuest || (editor.targetFile && editor.targetFile.id === 'readme')" 
+             style="margin-top: 12px; font-size: 0.85rem; color: #ff5f56; font-family: sans-serif; display: flex; align-items: center; gap: 6px;">
+            <span x-text="editor.targetFile && editor.targetFile.id === 'readme' ? 'Documento di sistema protetto in sola lettura' : 'Modalità sola lettura (Accedi per salvare le modifiche)'"></span>
+        </div>
+    </div>
+</div>

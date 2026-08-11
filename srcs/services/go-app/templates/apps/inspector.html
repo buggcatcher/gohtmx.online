@@ -1,0 +1,21 @@
+<div class="window-overlay" 
+     x-show="inspector.show" 
+     :style="'left: ' + inspector.px + 'px; top: ' + inspector.py + 'px; width: 380px;'"
+     style="display: none;">
+    <div class="window-header" @mousedown="dragWindow($event, inspector)">
+        <span>Proprietà File</span>
+        <button class="close-btn" @click="inspector.show = false"></button>
+    </div>
+    <div class="window-body" style="font-family: sans-serif; font-size: 0.9rem; line-height: 1.6;">
+        <p><strong>Nome:</strong> <span x-text="inspector.targetFile ? inspector.targetFile.name : ''"></span></p>
+        <p><strong>Dimensione:</strong> <span x-text="inspector.targetFile ? inspector.targetFile.size : ''"></span></p>
+        <p><strong>Autore:</strong> <span x-text="inspector.targetFile ? inspector.targetFile.creator : ''"></span></p>
+        
+        <template x-if="inspector.targetFile && inspector.targetFile.lastEditedBy">
+            <p><strong>Ultima Modifica di:</strong> <span x-text="inspector.targetFile.lastEditedBy"></span></p>
+        </template>
+
+        <p><strong>Data Ultima Modifica:</strong> <span x-text="inspector.targetFile ? inspector.targetFile.lastModified : ''"></span></p>
+        <p><strong>Tipo:</strong> <span x-text="inspector.targetFile ? inspector.targetFile.type : ''"></span></p>
+    </div>
+</div>

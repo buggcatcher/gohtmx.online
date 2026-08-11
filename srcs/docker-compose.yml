@@ -1,0 +1,75 @@
+networks:
+  gohtmx_net:
+    driver: bridge
+    name: gohtmx_net
+
+services:
+
+  postgres:
+    image: postgres:15-alpine
+    build:
+      context: ./services/postgress
+    env_file:
+      - .env
+    networks:
+      - gohtmx_net
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  go-app:
+    build:
+      context: ./services/go-app
+    env_file:
+      - .env
+    networks:
+      - gohtmx_net
+    volumes:
+      - static_data:/app/static
+      - app_data:/app/data
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  nginx:
+    build:
+      context: ./services/nginx
+      args:
+        DOMAIN_NAME: ${DOMAIN:-jack.42.fr}
+        USERNAME: ${USER:-jack}
+    ports:
+      - "443:443"
+    networks:
+      - gohtmx_net
+    volumes:
+      - static_data:/usr/share/nginx/html:ro
+    restart: always
+    depends_on:
+      go-app:
+        condition: service_started
+
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${DATA_PATH}/postgres
+      o: bind
+  static_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${DATA_PATH}/static
+      o: bind
+  app_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${DATA_PATH}/app
+      o: bind

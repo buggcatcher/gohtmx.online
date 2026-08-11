@@ -1,0 +1,17 @@
+<div class="window-overlay" 
+     x-show="creator.show" 
+     :style="'left: ' + creator.px + 'px; top: ' + creator.py + 'px; width: 340px;'"
+     style="display: none;">
+    <div class="window-header" @mousedown="dragWindow($event, creator)">
+        <span>Nuovo File</span>
+        <button class="close-btn" @click="creator.show = false"></button>
+    </div>
+    <div class="window-body">
+        <div style="margin-bottom: 12px; font-size: 0.9rem; color: #aaa;">Nome file (.txt o .md):</div>
+        <input type="text" x-model="creator.name" @keydown.enter="createFile()" class="input-field" style="width: 100%; box-sizing: border-box; margin-bottom: 15px;" placeholder="appunti.md" autofocus>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn-toggle" @click="creator.show = false" style="padding: 6px 15px; font-size: 0.85rem;">Annulla</button>
+            <button class="btn-access" @click="createFile()" style="padding: 6px 15px; font-size: 0.85rem; border-radius: 6px; box-shadow: none;">Crea</button>
+        </div>
+    </div>
+</div>

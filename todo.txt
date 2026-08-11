@@ -1,0 +1,39 @@
+
+
+BUGS:
+- viewer di un file .txt non deve renderizzare come un .md                    [ ]
+- fix codeblock prewiew markdown parser                                       [ ]
+- quando clicchi la nota che riporta a piè di pagina va tutto su              [ ]
+- se si aprono tanti visualizatori va in overheat ed eventualmente crasha     [ ]
+- apps windows must resize when 200% zoom, prevent exiting from border        [ ]
+- change email link colour                                                    [ ]
+- indice refresha la pagina e non porta alla sezione corrispondente           [ ]
+- sistema logica fetch/incrocio/assegnazione città e paese                    [ ]
+
+
+FOR LATER:
+- if primo log "benvenuto" al posto di "bentornato"                           [ ]
+- editor markdown highlights                                                  [ ]
+- menu option: rinomina                                                       [ ]
+- comando terminale: info                                                     [ ]
+- una cartella per utente con depth = 1                                       [ ]
+- profilo customizzabile                                                      [ ]
+- iframe di youtube per le playlist degli utenti?                             [ ]
+- cookies                                                                     [ ]
+- top bar come app separata                                                   [ ]
+- aggiungere funzionalità  multi desktop alla top bar                         [ ]
+- irc chat                                                                    [ ]
+- <no-reply> confirmation email                                               [ ]                                      
+- security audit                                                              [ ]
+
+
+
+
+
+
+
+
+
+
+
+

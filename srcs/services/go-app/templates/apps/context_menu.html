@@ -1,0 +1,38 @@
+<div class="context-menu" 
+     x-show="contextMenu.show" 
+     :style="'left: ' + contextMenu.x + 'px; top: ' + contextMenu.y + 'px;'"
+     @click.away="contextMenu.show = false"
+     style="display: none;">
+    
+    <template x-if="!contextMenu.targetFile">
+        <div>
+            <button @click="openCreator()">Crea File</button>
+            <button @click="openTerminal()">Apri Terminale</button>
+        </div>
+    </template>
+
+    <template x-if="contextMenu.targetFile && contextMenu.targetFile.category === 'system'">
+        <div>
+            <button @click="openFile(contextMenu.targetFile)">Esegui</button>
+            <button @click="inspectFile(contextMenu.targetFile)">Proprietà (Ispeziona)</button>
+        </div>
+    </template>
+    
+    <template x-if="contextMenu.targetFile && contextMenu.targetFile.category === 'document'">
+        <div>
+            <button @click="viewFile(contextMenu.targetFile)">Visualizza</button>
+            
+            <!-- Mostra 'Modifica' solo se non si tratta del README statico di sistema -->
+            <template x-if="contextMenu.targetFile.id !== 'readme'">
+                <button @click="editFile(contextMenu.targetFile)">Modifica</button>
+            </template>
+            
+            <button @click="inspectFile(contextMenu.targetFile)">Proprietà (Ispeziona)</button>
+            
+            <!-- Mostra 'Elimina' solo se non si tratta del README statico di sistema -->
+            <template x-if="contextMenu.targetFile.id !== 'readme'">
+                <button @click="deleteFile(contextMenu.targetFile)" style="color: #ff5f56;">Elimina</button>
+            </template>
+        </div>
+    </template>
+</div>
