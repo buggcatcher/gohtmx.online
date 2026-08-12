@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/monke/go-landing/handlers"
 )
 
@@ -41,11 +42,21 @@ func main() {
 
 	e := echo.New()
 
-	// Configura il motore di rendering per i template HTML
-	e.Renderer = &handlers.Template{Templates: handlers.Templates}
+    // Configura il motore di rendering per i template HTML
+    e.Renderer = &handlers.Template{Templates: handlers.Templates}
 
-	// Serve i file statici tramite Echo (può fungere da fallback a NGINX)
-	e.Static("/static", "static")
+    // Middleware di Sicurezza
+    e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+        XFrameOptions:         "DENY",
+        ContentTypeNosniff:    "nosniff",
+        XSSProtection:        "1; mode=block",
+        HSTSMaxAge:            31536000, // 1 anno
+    }))
+
+    // Se usi HTMX, l'implementazione del CSRF richiede l'invio del token negli header.
+    // Per un deploy iniziale rapido puoi rimandare, ma è consigliato attivarlo prima di esporre dati sensibili.
+
+	e.Static("/static", "static") // Serve i file statici tramite Echo (può fungere da fallback a NGINX)
 
 	// Rotte principali
 	e.GET("/", handlers.LandingHandler)

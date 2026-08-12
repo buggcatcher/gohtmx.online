@@ -3,9 +3,9 @@ NAME       := gohtmx
 # altrimenti usa whoami. Evita path /home/root e domain root.42.fr.
 APP_USER   := $(if $(SUDO_USER),$(SUDO_USER),$(shell whoami))
 USER       ?= $(APP_USER)
-DOMAIN     ?= $(USER).42.fr
-DATA_PATH  ?= /home/$(USER)/data
-BACKUP_PATH:= /home/$(USER)/backups
+DOMAIN     ?= gohtmx.online
+DATA_PATH  ?= /var/www/gohtmx/data
+BACKUP_PATH:= /var/www/gohtmx/backups
 
 export DATA_PATH
 export USER

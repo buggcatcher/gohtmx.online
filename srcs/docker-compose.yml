@@ -40,15 +40,13 @@ services:
   nginx:
     build:
       context: ./services/nginx
-      args:
-        DOMAIN_NAME: ${DOMAIN:-jack.42.fr}
-        USERNAME: ${USER:-jack}
     ports:
       - "443:443"
     networks:
       - gohtmx_net
     volumes:
       - static_data:/usr/share/nginx/html:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro # condivide i certificati di certbot per vps reale
     restart: always
     depends_on:
       go-app:
