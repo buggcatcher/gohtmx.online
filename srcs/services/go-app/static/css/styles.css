@@ -690,7 +690,16 @@ body {
     color: black;
 }
 
-/* Compatibilità del selettore :has(): Questa pseudo-classe è supportata nativamente da tutti i browser moderni
+
+#clippy-container {
+    z-index: 9999 !important;
+    transform: translateZ(9999px) !important;
+}
+
+/* le figate: Disattiva interazione e click con Clippy 
+   solo all'interno della schermata di login/landing 
+
+Compatibilità del selettore :has(): Questa pseudo-classe è supportata nativamente da tutti i browser moderni
 (inclusi Safari su iOS 15.4+ e Chrome/Firefox su Android). Rappresenta lo standard ideale per evitare di dover
 scrivere script JS aggiuntivi per monitorare i cambiamenti di stato o aggiungere classi dinamiche al body.
 
@@ -698,47 +707,20 @@ Integrazione con gli swap di HTMX: Poiché HTMX scambia i contenuti del contenit
 nel momento esatto in cui l'utente effettua il login (o entra come Guest) e il pannello di login scompare, il CSS
 rileva istantaneamente l'assenza di .landing-panel. Di conseguenza, l'interattività di Clippy viene ripristinata
 sul desktop mobile in tempo reale senza bisogno di ricaricare la pagina.*/
-@media (max-width: 420px) {
-    body:has(.landing-panel) #clippy-container {
-        pointer-events: none !important;
-    }
+*/
+body:has(.landing-panel) #clippy-container {
+    pointer-events: none !important;
 }
 
-/* iOS: Disattiva la selezione e il menu nativo per abilitare il long press */
-.desktop-workspace, 
-.desktop-grid, 
-.desktop-icon,
-.desktop-icon * {
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important; 
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-tap-highlight-color: transparent;
-}
 
-.window-overlay, 
-.window-overlay *, 
-.input-field, 
-input, 
-textarea, 
-.terminal-body,
-.markdown-preview,
-.markdown-preview * {
-    -webkit-touch-callout: default !important;
-    -webkit-user-select: text !important;
-    user-select: text !important;
-}
-
-@media (max-width: 420px) {
-    /* 1. Finestre a larghezza e altezza intera sotto la navbar */
+@media (max-width: 576px) {
+    /* Le finestre ora coprono interamente la larghezza sui telefoni più grandi (Max/Plus) */
     .window-overlay {
         width: 100% !important;
-        height: calc(100vh - 50px) !important; /* Copre lo schermo sotto la barra superiore di 50px */
+        height: calc(100vh - 50px) !important; /* Inizia sotto la navbar superiore */
         left: 0 !important;
         top: 50px !important;
-        border-radius: 0 !important; /* Rimuove gli angoli arrotondati per un look nativo */
+        border-radius: 0 !important; /* Angoli netti per riempire lo schermo */
         border-left: none !important;
         border-right: none !important;
         border-bottom: none !important;
@@ -746,39 +728,33 @@ textarea,
         flex-direction: column;
     }
 
-    /* 2. Gestione dello scorrimento e dell'altezza del corpo delle finestre */
+    /* Corpo della finestra adattato con scorrimento */
     .window-body {
         flex-grow: 1;
-        height: calc(100% - 42px) !important; /* Sottrae l'altezza dell'header della finestra */
+        height: calc(100% - 42px) !important;
         overflow-y: auto !important;
         box-sizing: border-box !important;
         padding: 12px !important;
     }
 
-    /* Ingrandimento del pulsante di chiusura rosso (touch target facilitato) */
+    /* Pulsante di chiusura rosso ingrandito a 28px per facilitare il tap */
     .close-btn {
         width: 28px !important;
         height: 28px !important;
         transition: transform 0.1s active;
     }
     .close-btn:active {
-        transform: scale(0.9); /* Feedback visivo al tocco */
+        transform: scale(0.9);
     }
 
-    /* 3. Ridimensionamento adattivo dei componenti interni */
-    
-    /* Textarea dell'Editor */
+    /* Ridimensionamento dei contenuti per non eccedere lo schermo mobile */
     .window-body textarea {
-        height: 60vh !important; /* Adatta l'altezza dell'area di modifica su schermi piccoli */
+        height: 55vh !important;
     }
-
-    /* Schermo del Terminale */
     .terminal-body {
-        height: 65vh !important;
+        height: 60vh !important;
     }
-
-    /* Tabella del Sistema Diagnostico (Metric Auditor) */
     .terminal-table-container {
-        max-height: 65vh !important;
+        max-height: 60vh !important;
     }
 }
