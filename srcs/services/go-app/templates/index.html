@@ -59,102 +59,108 @@
             Email confermata.
         </div>
 
-        <div class="landing-panel"
-            x-data="{
-                tab: null,
-                showLoginPw: false,
-                showRegPw: false,
-                showRegPwConfirm: false,
-                select(t) { this.tab = (this.tab === t ? null : t) }
-            }">
+        <!-- Se l'utente è autenticato, includiamo direttamente il desktop,
+             altrimenti mostriamo la schermata di login/iscrizione -->
+        {{ if .IsAuth }}
+            {{template "desktop.html" .}}
+        {{ else }}
+            <div class="landing-panel"
+                x-data="{
+                    tab: null,
+                    showLoginPw: false,
+                    showRegPw: false,
+                    showRegPwConfirm: false,
+                    select(t) { this.tab = (this.tab === t ? null : t) }
+                }">
 
-            <h1>GoHtmx V2.1</h1>
-            <div class="auth-card">
-                <div class="tab-switch" :class="tab ? 'tab-switch--' + tab : 'tab-switch--none'" role="tablist" aria-label="Accesso account">
-                    <span class="tab-indicator"></span>
-                    <button type="button" class="tab-btn" :class="{ 'is-active': tab === 'login' }"
-                            role="tab" :aria-selected="tab === 'login'" @click="select('login')">
-                        Accedi
-                    </button>
-                    <button type="button" class="tab-btn" :class="{ 'is-active': tab === 'register' }"
-                            role="tab" :aria-selected="tab === 'register'" @click="select('register')">
-                        Iscriviti
-                    </button>
-                </div>
+                <h1>GoHtmx V2.1</h1>
+                <div class="auth-card">
+                    <div class="tab-switch" :class="tab ? 'tab-switch--' + tab : 'tab-switch--none'" role="tablist" aria-label="Accesso account">
+                        <span class="tab-indicator"></span>
+                        <button type="button" class="tab-btn" :class="{ 'is-active': tab === 'login' }"
+                                role="tab" :aria-selected="tab === 'login'" @click="select('login')">
+                            Accedi
+                        </button>
+                        <button type="button" class="tab-btn" :class="{ 'is-active': tab === 'register' }"
+                                role="tab" :aria-selected="tab === 'register'" @click="select('register')">
+                            Iscriviti
+                        </button>
+                    </div>
 
-                <div class="panel-collapse" :style="{ gridTemplateRows: tab ? '1fr' : '0fr' }">
-                    <div class="panel-inner">
+                    <div class="panel-collapse" :style="{ gridTemplateRows: tab ? '1fr' : '0fr' }">
+                        <div class="panel-inner">
 
-                        <!-- LOGIN -->
-                        <form x-show="tab === 'login'" x-cloak
-                              hx-post="/login" hx-target="#form-response" hx-swap="innerHTML"
-                              class="auth-form">
-                            <div class="field">
-                                <label for="login-email">Email</label>
-                                <input type="email" id="login-email" name="email" class="input-field" autocomplete="email" required>
-                            </div>
-                            <div class="field">
-                                <label for="login-password">Password</label>
-                                <div class="password-wrapper">
-                                    <input :type="showLoginPw ? 'text' : 'password'" id="login-password" name="password"
-                                           class="input-field" autocomplete="current-password" required>
-                                    <button type="button" class="eye-btn" @click="showLoginPw = !showLoginPw"
-                                            :aria-label="showLoginPw ? 'Nascondi password' : 'Mostra password'">
-                                        <svg x-show="!showLoginPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        <svg x-show="showLoginPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a21.6 21.6 0 0 1-2.68 3.68M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                                    </button>
+                            <!-- LOGIN -->
+                            <form x-show="tab === 'login'" x-cloak
+                                  hx-post="/login" hx-target="#form-response" hx-swap="innerHTML"
+                                  class="auth-form">
+                                <div class="field">
+                                    <label for="login-email">Email</label>
+                                    <input type="email" id="login-email" name="email" class="input-field" autocomplete="email" required>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn-primary">Accedi</button>
-                        </form>
-
-                        <!-- REGISTRAZIONE -->
-                        <form x-show="tab === 'register'" x-cloak
-                              hx-post="/register" hx-target="#form-response" hx-swap="innerHTML"
-                              class="auth-form">
-                            <div class="field">
-                                <label for="reg-email">Email</label>
-                                <input type="email" id="reg-email" name="email" class="input-field" autocomplete="email" required>
-                            </div>
-                            <div class="field">
-                                <label for="reg-password">Password</label>
-                                <div class="password-wrapper">
-                                    <input :type="showRegPw ? 'text' : 'password'" id="reg-password" name="password"
-                                           class="input-field" autocomplete="new-password" minlength="8"
-                                           @paste.prevent @copy.prevent @cut.prevent required>
-                                    <button type="button" class="eye-btn" @click="showRegPw = !showRegPw"
-                                            :aria-label="showRegPw ? 'Nascondi password' : 'Mostra password'">
-                                        <svg x-show="!showRegPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        <svg x-show="showRegPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a21.6 21.6 0 0 1-2.68 3.68M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                                    </button>
+                                <div class="field">
+                                    <label for="login-password">Password</label>
+                                    <div class="password-wrapper">
+                                        <input :type="showLoginPw ? 'text' : 'password'" id="login-password" name="password"
+                                               class="input-field" autocomplete="current-password" required>
+                                        <button type="button" class="eye-btn" @click="showLoginPw = !showLoginPw"
+                                                :aria-label="showLoginPw ? 'Nascondi password' : 'Mostra password'">
+                                            <svg x-show="!showLoginPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg x-show="showLoginPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a21.6 21.6 0 0 1-2.68 3.68M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <label for="reg-password-confirm">Conferma password</label>
-                                <div class="password-wrapper">
-                                    <input :type="showRegPwConfirm ? 'text' : 'password'" id="reg-password-confirm" name="password_confirm"
-                                           class="input-field" autocomplete="new-password" minlength="8"
-                                           @paste.prevent @copy.prevent @cut.prevent required>
-                                    <button type="button" class="eye-btn" @click="showRegPwConfirm = !showRegPwConfirm"
-                                            :aria-label="showRegPwConfirm ? 'Nascondi password' : 'Mostra password'">
-                                        <svg x-show="!showRegPwConfirm" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        <svg x-show="showRegPwConfirm" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a21.6 21.6 0 0 1-2.68 3.68M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn-primary">Registrati</button>
-                        </form>
+                                <button type="submit" class="btn-primary">Accedi</button>
+                            </form>
 
-                        <div id="form-response"></div>
+                            <!-- REGISTRAZIONE -->
+                            <form x-show="tab === 'register'" x-cloak
+                                  hx-post="/register" hx-target="#form-response" hx-swap="innerHTML"
+                                  class="auth-form">
+                                <div class="field">
+                                    <label for="reg-email">Email</label>
+                                    <input type="email" id="reg-email" name="email" class="input-field" autocomplete="email" required>
+                                </div>
+                                <div class="field">
+                                    <label for="reg-password">Password</label>
+                                    <div class="password-wrapper">
+                                        <input :type="showRegPw ? 'text' : 'password'" id="reg-password" name="password"
+                                               class="input-field" autocomplete="new-password" minlength="8"
+                                               @paste.prevent @copy.prevent @cut.prevent required>
+                                        <button type="button" class="eye-btn" @click="showRegPw = !showRegPw"
+                                                :aria-label="showRegPw ? 'Nascondi password' : 'Mostra password'">
+                                            <svg x-show="!showRegPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg x-show="showRegPw" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a21.6 21.6 0 0 1-2.68 3.68M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="reg-password-confirm">Conferma password</label>
+                                    <div class="password-wrapper">
+                                        <input :type="showRegPwConfirm ? 'text' : 'password'" id="reg-password-confirm" name="password_confirm"
+                                               class="input-field" autocomplete="new-password" minlength="8"
+                                               @paste.prevent @copy.prevent @cut.prevent required>
+                                        <button type="button" class="eye-btn" @click="showRegPwConfirm = !showRegPwConfirm"
+                                                :aria-label="showRegPwConfirm ? 'Nascondi password' : 'Mostra password'">
+                                            <svg x-show="!showRegPwConfirm" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg x-show="showRegPwConfirm" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a21.6 21.6 0 0 1-2.68 3.68M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary">Registrati</button>
+                            </form>
+
+                            <div id="form-response"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <button type="button" class="btn-guest"
-                    hx-get="/desktop?guest=1" hx-target="#content-area" hx-swap="innerHTML">
-                Continua come Guest
-            </button>
+                <button type="button" class="btn-guest"
+                        hx-get="/desktop?guest=1" hx-target="#content-area" hx-swap="innerHTML">
+                    Continua come Guest
+                </button>
 
-        </div>
+            </div>
+        {{ end }}
 
     </div>
 
