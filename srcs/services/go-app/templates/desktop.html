@@ -1,4 +1,3 @@
-<!-- Sfondo Desktop Workspace -->
 <div class="desktop-workspace" 
      x-data="desktopManager('{{.Username}}', {{.IsGuest}})"
      @contextmenu.prevent="showContextMenu($event, null)"
@@ -39,7 +38,7 @@
         </div>
     </div>
     
-    <!-- Griglia dei File modificata -->
+    <!-- Griglia dei File -->
     <div class="desktop-grid" @click="contextMenu.show = false">
         <template x-for="file in files" :key="file.id">
             <div class="desktop-icon" 
