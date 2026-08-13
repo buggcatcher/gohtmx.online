@@ -1,6 +1,8 @@
 <div class="window-overlay" 
      x-show="creator.show" 
-     :style="'left: ' + creator.px + 'px; top: ' + creator.py + 'px; width: 340px;'"
+     :style="isMobile 
+        ? 'left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
+        : 'left: ' + creator.px + 'px; top: ' + creator.py + 'px; width: 340px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, creator)">
         <span>Nuovo File</span>

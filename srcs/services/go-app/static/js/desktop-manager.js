@@ -11,7 +11,10 @@ const initDesktop = () => {
         userIP: 'Recupero in corso...',
         sessionSeconds: 0,
         dragOver: false,
-        longPressTimer: null, // Timer per gestire il long press su mobile
+        longPressTimer: null,
+        
+        // Rilevamento dinamico dello stato mobile (sotto i 480px)
+        isMobile: window.innerWidth <= 480,
         
         // File di default (readme asincrono e metric app)
         files: [
@@ -62,6 +65,11 @@ const initDesktop = () => {
          * Inizializzazione: sincronizza file dal DB, carica IP, avvia session timer
          */
         init() {
+            // Ascolta il ridimensionamento della finestra per aggiornare lo stato mobile
+            window.addEventListener('resize', () => {
+                this.isMobile = window.innerWidth <= 480;
+            });
+
             // Sincronizza i file persistenti dal database
             fetch('/api/files')
                 .then(res => res.json())
@@ -186,6 +194,9 @@ const initDesktop = () => {
          * Drag window: permette di trascinare le finestre
          */
         dragWindow(event, windowObj) {
+            // Se siamo su mobile o lo schermo è piccolo, disattiviamo lo spostamento trascinato
+            if (this.isMobile) return;
+
             let startX = event.clientX - windowObj.px;
             let startY = event.clientY - windowObj.py;
             

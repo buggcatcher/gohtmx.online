@@ -1,13 +1,16 @@
 <div class="window-overlay" 
      x-show="terminal.show" 
-     :style="'left: ' + terminal.px + 'px; top: ' + terminal.py + 'px; width: 780px;'"
+     :style="isMobile 
+        ? 'left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
+        : 'left: ' + terminal.px + 'px; top: ' + terminal.py + 'px; width: 780px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, terminal)">
         <span>Terminale di Sistema</span>
         <button class="close-btn" @click="terminal.show = false"></button>
     </div>
-    <div class="window-body" style="padding: 0; background: #000;">
-        <div class="terminal-body" id="terminal-screen" @click="$refs.termInput.focus()">
+    <div class="window-body" style="padding: 0; background: #000;" :style="isMobile ? 'height: calc(100% - 42px);' : ''">
+        <div class="terminal-body" id="terminal-screen" @click="$refs.termInput.focus()"
+             :style="isMobile ? 'height: 100%;' : 'height: 380px;'">
             <div style="color: #888; margin-bottom: 8px;">Solar OS [Version 2.0.42]</div>
             <div style="color: #888; margin-bottom: 12px;">Digita 'help' per la lista dei comandi disponibili.</div>
             
