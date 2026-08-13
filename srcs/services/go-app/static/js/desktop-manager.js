@@ -12,6 +12,8 @@ const initDesktop = () => {
         sessionSeconds: 0,
         dragOver: false,
         
+        longPressTimer: null,
+        
         // File di default (readme asincrono e metric app)
         files: [
             { 
@@ -48,6 +50,41 @@ const initDesktop = () => {
         creator: { show: false, name: '', px: 180, py: 150 },
         viewer: { show: false, targetFile: null, px: 220, py: 100 },
         terminal: { show: false, input: '', history: [], px: 100, py: 80 },
+
+        /**
+         * Gestisce l'avvio del tocco per il long press
+         */
+        handleTouchStart(event, file = null) {
+            // Gestiamo solo tocchi singoli
+            if (event.touches.length !== 1) return;
+            const touch = event.touches[0];
+
+            if (this.longPressTimer) clearTimeout(this.longPressTimer);
+
+            this.longPressTimer = setTimeout(() => {
+                // Previene i comportamenti nativi del browser (es. selezione del testo)
+                event.preventDefault();
+                
+                // Emuliamo la struttura dell'evento click standard passandolo al menu contestuale
+                const fakeEvent = {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    preventDefault() {}
+                };
+                this.showContextMenu(fakeEvent, file);
+                this.longPressTimer = null;
+            }, 600); // 600 millisecondi per considerare valido il long press
+        },
+
+        /**
+         * Cancella il timer se l'utente muove il dito o rilascia il tocco prima del tempo limite
+         */
+        handleTouchEnd() {
+            if (this.longPressTimer) {
+                clearTimeout(this.longPressTimer);
+                this.longPressTimer = null;
+            }
+        },
 
         /**
          * Estrae l'username da un email o identity

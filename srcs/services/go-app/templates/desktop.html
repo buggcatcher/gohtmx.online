@@ -1,6 +1,10 @@
+<!-- Sfondo Desktop Workspace -->
 <div class="desktop-workspace" 
      x-data="desktopManager('{{.Username}}', {{.IsGuest}})"
      @contextmenu.prevent="showContextMenu($event, null)"
+     @touchstart="handleTouchStart($event, null)"
+     @touchend="handleTouchEnd()"
+     @touchmove="handleTouchEnd()"
      @dragover.prevent="!isGuest && (dragOver = true)"
      @dragleave.prevent="dragOver = false"
      @drop.prevent="handleDrop($event)"
@@ -35,12 +39,15 @@
         </div>
     </div>
     
-    <!-- Griglia dei File -->
+    <!-- Griglia dei File modificata -->
     <div class="desktop-grid" @click="contextMenu.show = false">
         <template x-for="file in files" :key="file.id">
             <div class="desktop-icon" 
                  @dblclick="openFile(file)"
-                 @contextmenu.prevent.stop="showContextMenu($event, file)">
+                 @contextmenu.prevent.stop="showContextMenu($event, file)"
+                 @touchstart.stop="handleTouchStart($event, file)"
+                 @touchend.stop="handleTouchEnd()"
+                 @touchmove.stop="handleTouchEnd()">
                 <div class="icon-symbol" style="display: flex; align-items: center; justify-content: center; min-height: 48px;">
                     <template x-if="file.icon.includes('/') || file.icon.includes('.')">
                         <img :src="file.icon" style="width: 48px; height: 48px; object-fit: contain; pointer-events: none;" />

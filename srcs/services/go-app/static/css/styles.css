@@ -689,3 +689,9 @@ body {
     background: rgba(0, 255, 204, 0.5);
     color: black;
 }
+
+@media (max-width: 420px) {
+    #clippy-container {
+        pointer-events: none !important;
+    }
+}
