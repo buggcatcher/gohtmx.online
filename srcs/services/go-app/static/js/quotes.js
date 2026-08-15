@@ -116,6 +116,13 @@ const ClippyQuotesManager = {
     // 4. Algoritmo randomico ad esclusione per ogni singolo contesto
     speakRandomQuote() {
         const context = this.getContext();
+        const isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
+
+        // Disattiva il click su Clippy solo se siamo nella schermata iniziale (index) e su un dispositivo mobile
+        if (context === 'index' && isMobile) {
+            return;
+        }
+
         const currentSet = this.quoteSets[context] || this.quoteSets['desktop_empty'];
 
         // Inizializza l'array degli indici utilizzati se non è ancora presente

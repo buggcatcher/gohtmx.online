@@ -748,3 +748,15 @@ textarea {
     -ms-user-select: text !important;
     user-select: text !important;
 }
+
+/* Impedisce lo zoom automatico dei browser mobili durante la messa a fuoco degli input */
+@media screen and (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    .input-field,
+    .terminal-input {
+        font-size: 16px !important;
+    }
+}

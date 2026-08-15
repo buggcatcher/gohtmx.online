@@ -1,21 +1,20 @@
 
 
 BUGS:
-- se ruoto l'iphone (sia safari che firefox) mi si apre la schermata system 
-  auditor dell' app fingerprint e resta impiantato lì                         [ ]
 - viewer di un file .txt non deve renderizzare come un .md                    [ ]
 - fix codeblock prewiew markdown parser                                       [ ]
 - quando clicchi la nota che riporta a piè di pagina va tutto su              [ ]
 - se si aprono tanti visualizatori va in overheat ed eventualmente crasha     [ ]
-- apps windows must resize when 200% zoom, prevent exiting from border        [ ]
 - change email link colour                                                    [ ]
-- indice refresha la pagina e non porta alla sezione corrispondente           [ ]
 - sistema logica fetch/incrocio/assegnazione città e paese                    [ ]
 
 
 FOR LATER:
+- editor formatting                                                           [ ]
+- remove clippy talk from login except email confirmation                     [ ]
+- pop up che sbuca fuori dicento email confermata va tolto.                   [ ]
 - user@iOS or user@android instead of user @solar                             [ ]
-- if primo log "benvenuto" al posto di "bentornato"                           [ ]
+- if primo log "benvenuto" al posto di "bentornato". n log tabella?           [ ]
 - editor markdown highlights                                                  [ ]
 - menu option: rinomina                                                       [ ]
 - comando terminale: info                                                     [ ]
