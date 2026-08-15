@@ -189,10 +189,19 @@ body {
 .close-btn {
     background: #ff5f56;
     border: none;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     cursor: pointer;
+    position: relative;
+}
+.close-btn::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
 }
 
 /* CLIPPY CONTAINER */

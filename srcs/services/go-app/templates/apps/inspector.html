@@ -1,12 +1,13 @@
 <div class="window-overlay" 
      x-show="inspector.show" 
+     @contextmenu.stop
      :style="isMobile 
         ? 'left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
         : 'left: ' + inspector.px + 'px; top: ' + inspector.py + 'px; width: 380px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, inspector)">
         <span>Proprietà File</span>
-        <button class="close-btn" @click="inspector.show = false"></button>
+        <button class="close-btn" @click="inspector.show = false" @mousedown.stop @touchstart.stop></button>
     </div>
     <div class="window-body" style="font-family: sans-serif; font-size: 0.9rem; line-height: 1.6;">
         <p><strong>Nome:</strong> <span x-text="inspector.targetFile ? inspector.targetFile.name : ''"></span></p>

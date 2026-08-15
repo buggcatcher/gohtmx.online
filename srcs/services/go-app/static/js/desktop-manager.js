@@ -14,7 +14,7 @@ const initDesktop = () => {
         longPressTimer: null,
         
         // Rilevamento dinamico dello stato mobile (sotto i 480px)
-        isMobile: window.innerWidth <= 480,
+        isMobile: window.innerWidth <= 768 || window.innerHeight <= 480,
         
         // File di default (readme asincrono e metric app)
         files: [
@@ -67,7 +67,7 @@ const initDesktop = () => {
         init() {
             // Ascolta il ridimensionamento della finestra per aggiornare lo stato mobile
             window.addEventListener('resize', () => {
-                this.isMobile = window.innerWidth <= 480;
+                this.isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
             });
 
             // Sincronizza i file persistenti dal database
@@ -222,6 +222,10 @@ const initDesktop = () => {
          * Gestisce l'avvio del tocco per il long press
          */
         handleTouchStart(event, file = null) {
+            // Se il tocco avviene all'interno di una finestra aperta, ignoriamo per non interferire con lo scroll nativo
+            if (event.target.closest('.window-overlay')) {
+                return;
+            }
             if (event.touches.length !== 1) return;
             const touch = event.touches[0];
 
