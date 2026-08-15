@@ -4,7 +4,7 @@ Benvenuto in **Solar City**, un ambiente desktop virtuale e interattivo progetta
 
 Questo file serve per mostrare le caratteristiche sintattiche del parser markdown che viene usato per i file `*.md`.
 
-Puoi aggiungere immagini e gif con la sintassi \![testo](link)
+Puoi aggiungere immagini e gif con la sintassi `![testo](link)`
 ![Solar City Workspace](https://i.giphy.com/3o7abFpd91G18NYtpe.webp)
 
 ---
