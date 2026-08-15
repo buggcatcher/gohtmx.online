@@ -2,9 +2,10 @@
 
 Benvenuto in **Solar City**, un ambiente desktop virtuale e interattivo progettato come spazio digitale volto alla collaborazione, alla condivisione di risorse e alla diagnostica di rete in tempo reale. 
 
-![Solar City Workspace](https://i.giphy.com/3o7abFpd91G18NYtpe.webp)
-
 Questo file serve per mostrare le caratteristiche sintattiche del parser markdown che viene usato per i file `*.md`.
+
+Puoi aggiungere immagini e gif con la sintassi \![testo](link)
+![Solar City Workspace](https://i.giphy.com/3o7abFpd91G18NYtpe.webp)
 
 ---
 
@@ -53,11 +54,11 @@ Puoi combinare diversi stili per enfatizzare i concetti:
 
 Sfrutta i blocchi di citazione speciali per richiamare l'attenzione del lettore su punti chiave:
 
-> [!NOTE]
-> Questo è un avviso informativo standard, ideale per annotazioni generali o note di configurazione del server.
-
 > [!TIP]
 > Ecco un suggerimento utile: usa il tasto destro sullo sfondo del desktop per aprire il Terminale emulato e digita `neofetch`.
+
+> [!IMPORTANT]
+> Questo è un avviso informativo standard, ideale per annotazioni generali o note di configurazione del server.
 
 > [!WARNING]
 > Attenzione: la sessione utente scade automaticamente dopo 7 giorni di inattività.

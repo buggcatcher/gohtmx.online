@@ -12,6 +12,17 @@
     <div class="window-body" 
          :style="isMobile ? 'padding: 15px;' : 'padding: 25px;'"
          style="background: #1a1a24;">
-        <div class="markdown-preview" x-html="parseMarkdown(viewer.targetFile ? viewer.targetFile.content : '')"></div>
+        
+        <!-- Render di file plain-text (.txt) senza parsing markdown -->
+        <template x-if="viewer.targetFile && viewer.targetFile.name.toLowerCase().endsWith('.txt')">
+            <pre style="white-space: pre-wrap; font-family: 'Courier New', Courier, monospace; color: #e6edf3; margin: 0; background: #0e0e15; padding: 15px; border-radius: 6px; border: 1px solid #30363d; overflow: auto; height: 100%; box-sizing: border-box;" 
+                 x-text="viewer.targetFile.content"></pre>
+        </template>
+        
+        <!-- Render di file markdown (.md) con parsing standard -->
+        <template x-if="viewer.targetFile && !viewer.targetFile.name.toLowerCase().endsWith('.txt')">
+            <div class="markdown-preview" x-html="parseMarkdown(viewer.targetFile ? viewer.targetFile.content : '')"></div>
+        </template>
+        
     </div>
 </div>

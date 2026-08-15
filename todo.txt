@@ -1,16 +1,20 @@
 
 
 BUGS:
-- viewer di un file .txt non deve renderizzare come un .md                    [ ]
-- fix codeblock prewiew markdown parser                                       [ ]
-- quando clicchi la nota che riporta a piè di pagina va tutto su              [ ]
 - se si aprono tanti visualizatori va in overheat ed eventualmente crasha     [ ]
-- sistema logica fetch/incrocio/assegnazione città e paese                    [ ]
+- fingerprint exact os extraction -> terminal @os                             [ ] 
 
 
 FOR LATER:
-- editor markdown highlights                                                  [ ]
+- CV app                                                                      [ ]
+- editor markdown highlights                                                  [x]
+- fix codeblock prewiew markdown parser finestra a parte?                     [x]
+- con il terminale showcase librerie e progetti c e cpp                       [ ]
+- viewer di un file .txt non deve renderizzare come un .md                    [x]
+- sistema logica fetch/incrocio/assegnazione città e paese                    [ ]
+- carica file da mobile                                                       [ ]
 - menu option: rinomina                                                       [ ]
+- cartelle permessi speciali?
 - comando terminale: info                                                     [ ]
 - una cartella per utente con depth = 1                                       [ ]
 - profilo customizzabile                                                      [ ]

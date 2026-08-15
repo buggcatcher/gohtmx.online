@@ -44,6 +44,79 @@ const MarkdownParser = (() => {
         return slug;
     }
 
+    // ---------- Syntax Highlighter custom ----------
+    function highlight(code, lang) {
+        const l = (lang || '').toLowerCase();
+        
+        if (!l) return escapeHtml(code);
+
+        const keywords = {
+            js: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'import', 'export', 'class', 'default', 'new', 'this', 'typeof', 'true', 'false', 'null', 'undefined'],
+            go: ['package', 'import', 'func', 'return', 'if', 'else', 'for', 'range', 'switch', 'case', 'select', 'default', 'break', 'continue', 'struct', 'interface', 'type', 'map', 'chan', 'go', 'defer', 'nil', 'true', 'false', 'var', 'const'],
+            python: ['def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'break', 'continue', 'import', 'from', 'as', 'in', 'is', 'and', 'or', 'not', 'lambda', 'None', 'True', 'False', 'try', 'except', 'finally', 'with', 'assert', 'pass', 'global', 'nonlocal'],
+            py: ['def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'break', 'continue', 'import', 'from', 'as', 'in', 'is', 'and', 'or', 'not', 'lambda', 'None', 'True', 'False', 'try', 'except', 'finally', 'with', 'assert', 'pass', 'global', 'nonlocal'],
+            c: ['include', 'define', 'if', 'ifdef', 'ifndef', 'else', 'elif', 'endif', 'struct', 'union', 'enum', 'typedef', 'sizeof', 'return', 'void', 'int', 'char', 'float', 'double', 'long', 'short', 'signed', 'unsigned', 'const', 'volatile', 'static', 'extern', 'register', 'auto', 'goto', 'break', 'continue', 'switch', 'case', 'default', 'for', 'while', 'do'],
+            cpp: ['class', 'public', 'private', 'protected', 'virtual', 'override', 'final', 'friend', 'inline', 'template', 'typename', 'this', 'new', 'delete', 'throw', 'try', 'catch', 'namespace', 'using', 'std', 'cout', 'cin', 'endl', 'include', 'define', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'return', 'void', 'int', 'char', 'float', 'double', 'bool', 'true', 'false'],
+            bash: ['echo', 'exit', 'if', 'then', 'else', 'elif', 'fi', 'for', 'in', 'do', 'done', 'while', 'case', 'esac', 'function', 'local', 'return', 'sudo', 'apt', 'yum', 'curl', 'wget', 'git', 'mkdir', 'cd', 'ls', 'rm', 'cp', 'mv', 'chmod', 'chown'],
+            sh: ['echo', 'exit', 'if', 'then', 'else', 'elif', 'fi', 'for', 'in', 'do', 'done', 'while', 'case', 'esac', 'function', 'local', 'return', 'sudo', 'apt', 'yum', 'curl', 'wget', 'git', 'mkdir', 'cd', 'ls', 'rm', 'cp', 'mv', 'chmod', 'chown'],
+            docker: ['from', 'run', 'cmd', 'label', 'maintainer', 'expose', 'env', 'add', 'copy', 'entrypoint', 'volume', 'user', 'workdir', 'arg', 'onbuild', 'stopsignal', 'healthcheck', 'shell'],
+            dockerfile: ['from', 'run', 'cmd', 'label', 'maintainer', 'expose', 'env', 'add', 'copy', 'entrypoint', 'volume', 'user', 'workdir', 'arg', 'onbuild', 'stopsignal', 'healthcheck', 'shell'],
+            make: ['all', 'clean', 'fclean', 're', 'phony', 'wildcard', 'shell', 'eval', 'define', 'endef', 'ifeq', 'ifneq', 'else', 'endif', 'include'],
+            makefile: ['all', 'clean', 'fclean', 're', 'phony', 'wildcard', 'shell', 'eval', 'define', 'endef', 'ifeq', 'ifneq', 'else', 'endif', 'include'],
+            html: ['doctype', 'html', 'head', 'title', 'meta', 'link', 'style', 'script', 'body', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a', 'img', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'tfoot', 'ul', 'ol', 'li', 'form', 'input', 'button', 'textarea', 'label', 'select', 'option', 'iframe'],
+            css: ['import', 'media', 'font-face', 'keyframes', 'root']
+        };
+
+        keywords.h = keywords.c;
+        keywords.hpp = keywords.cpp;
+
+        const tokens = [];
+        const stash = (text, cls) => {
+            tokens.push(`<span class="${cls}">${escapeHtml(text)}</span>`);
+            return `___TOKEN_${tokens.length - 1}___`;
+        };
+
+        let tempCode = code;
+
+        // 1. Line Comments
+        if (l === 'html') {
+            tempCode = tempCode.replace(/<!--[\s\S]*?-->/g, m => stash(m, 'hl-comment'));
+        } else if (l === 'css') {
+            tempCode = tempCode.replace(/\/\*[\s\S]*?\*\//g, m => stash(m, 'hl-comment'));
+        } else if (['js', 'go', 'c', 'cpp', 'h', 'hpp'].includes(l)) {
+            tempCode = tempCode.replace(/\/\*[\s\S]*?\*\//g, m => stash(m, 'hl-comment'));
+            tempCode = tempCode.replace(/\/\/.*/g, m => stash(m, 'hl-comment'));
+        } else if (['python', 'py', 'bash', 'sh', 'docker', 'dockerfile', 'make', 'makefile'].includes(l)) {
+            tempCode = tempCode.replace(/#.*/g, m => stash(m, 'hl-comment'));
+        }
+
+        // 2. Strings
+        tempCode = tempCode.replace(/"(?:\\.|[^"\\])*?"/g, m => stash(m, 'hl-string'));
+        tempCode = tempCode.replace(/'(?:\\.|[^'\\])*?'/g, m => stash(m, 'hl-string'));
+        if (l === 'js') {
+            tempCode = tempCode.replace(/`(?:\\.|[^`\\])*?`/g, m => stash(m, 'hl-string'));
+        }
+
+        // 3. Numbers
+        tempCode = tempCode.replace(/\b(\d+)\b/g, m => stash(m, 'hl-number'));
+
+        // 4. Keywords
+        const langKeywords = keywords[l] || [];
+        if (langKeywords.length > 0) {
+            const kwRegex = new RegExp(`\\b(${langKeywords.join('|')})\\b`, 'g');
+            tempCode = tempCode.replace(kwRegex, m => stash(m, 'hl-keyword'));
+        }
+
+        tempCode = escapeHtml(tempCode);
+
+        // Restore token mappings
+        for (let idx = tokens.length - 1; idx >= 0; idx--) {
+            tempCode = tempCode.replace(`___TOKEN_${idx}___`, tokens[idx]);
+        }
+
+        return tempCode;
+    }
+
     // ---------- sanitizer HTML grezzo (whitelist tag + attributi) ----------
 
     const HTML_BLOCK_TAGS = ['div','span','p','h1','h2','h3','h4','h5','h6','table','thead','tbody',
@@ -313,7 +386,11 @@ const MarkdownParser = (() => {
                 const buf = []; i++;
                 while (i < lines.length && !RE_FENCE.test(lines[i])) { buf.push(lines[i]); i++; }
                 i++;
-                const code = `<pre data-lang="${escapeHtml(lang)}"><code>${escapeHtml(buf.join('\n'))}</code></pre>`;
+                
+                const rawCode = buf.join('\n');
+                const highlighted = highlight(rawCode, lang);
+                const code = `<pre data-lang="${escapeHtml(lang)}"><code>${highlighted}</code></pre>`;
+                
                 if (lang === 'mermaid') {
                     out.push(`<div class="md-mermaid-fallback"><p class="md-mermaid-label">📊 Diagramma Mermaid (sorgente, non renderizzato graficamente)</p>${code}</div>`);
                 } else {
