@@ -247,7 +247,7 @@ body {
     transform-style: preserve-3d;
     perspective: 1000px;
     transition: transform 0.08s ease-out; 
-    pointer-events: none;
+    pointer-events: auto !important;
 }
 
 #clippy-text {

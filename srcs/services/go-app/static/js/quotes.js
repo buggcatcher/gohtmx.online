@@ -8,7 +8,7 @@ const ClippyQuotesManager = {
             "La porta del server è protetta da certificati SSL sicuri!"
         ],
 
-        // Contesto B: Desktop visibile senza finestre o applicazioni aperte
+        // Contesto B: Desktop visibile senza finestre o applicazioni aperte (Desktop)
         desktop_empty: [
             "Perché non crei un file facendo click con il tasto destro?",
             "Ci sono 10 tipi di persone al mondo: chi capisce il binario e chi no.",
@@ -17,6 +17,17 @@ const ClippyQuotesManager = {
             "Per anni ho coltivato patate, solo ora comprendo che in realtà sono state loro a coltivare me.",
             "Questo sfondo l'ho scelto personalmente per te.",
             "Trascina un file .txt o .md dal tuo computer per caricarlo al volo!"
+        ],
+
+        // Contesto B2: Desktop visibile senza finestre aperte su dispositivi Mobile
+        desktop_empty_mobile: [
+            "Tieni premuto a lungo (long press) sullo sfondo per aprire il menu e creare un file!",
+            "Puoi interagire con le icone tenendo premuto a lungo sullo schermo.",
+            "Ci sono 10 tipi di persone al mondo: chi capisce il binario e chi no.",
+            "Nessun programmatore è stato maltrattato per la scrittura di questo codice.",
+            "Sei felice?",
+            "Questo sfondo l'ho scelto personalmente per te.",
+            "Se effettui l'accesso, potrai salvare i tuoi documenti sul database Postgres remoto."
         ],
 
         // Contesto C: Finestra del Terminale di sistema aperta
@@ -55,6 +66,7 @@ const ClippyQuotesManager = {
     usedIndices: {
         index: [],
         desktop_empty: [],
+        desktop_empty_mobile: [],
         terminal: [],
         metric: [],
         editor: [],
@@ -101,6 +113,10 @@ const ClippyQuotesManager = {
                         (desktopData.inspector && desktopData.inspector.show);
 
                     if (!isAnyWindowOpen) {
+                        const isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
+                        if (isMobile) {
+                            return 'desktop_empty_mobile';
+                        }
                         return 'desktop_empty';
                     }
                 }
@@ -110,6 +126,10 @@ const ClippyQuotesManager = {
         }
 
         // Fallback di sicurezza in caso di errore
+        const isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
+        if (isMobile) {
+            return 'desktop_empty_mobile';
+        }
         return 'desktop_empty';
     },
 
@@ -121,6 +141,26 @@ const ClippyQuotesManager = {
         // Disattiva il click su Clippy solo se siamo nella schermata iniziale (index) e su un dispositivo mobile
         if (context === 'index' && isMobile) {
             return;
+        }
+
+        // Impedisce di cliccare su Clippy se il menu contestuale è attualmente attivo
+        const contextMenuEl = document.querySelector('.context-menu');
+        if (contextMenuEl && contextMenuEl.style.display !== 'none') {
+            console.log("[ClippyQuotes]: Click ignorato. Il menu contestuale è aperto (DOM check).");
+            return;
+        }
+
+        const desktopEl = document.querySelector('.desktop-workspace');
+        if (desktopEl && window.Alpine) {
+            try {
+                const desktopData = Alpine.$data(desktopEl);
+                if (desktopData && desktopData.contextMenu && desktopData.contextMenu.show) {
+                    console.log("[ClippyQuotes]: Click ignorato. Il menu contestuale è aperto (Alpine check).");
+                    return;
+                }
+            } catch (e) {
+                // Silenzia eventuali anomalie temporanee durante la build o l'inizializzazione asincrona
+            }
         }
 
         const currentSet = this.quoteSets[context] || this.quoteSets['desktop_empty'];

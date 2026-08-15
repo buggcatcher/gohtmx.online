@@ -138,6 +138,19 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Errore nel caricamento del modello 3D di Clippy:", error);
     });
 
+    // Gestione del click per la chiusura prematura del fumetto (mid-talk pop)
+    const bubbleElement = document.getElementById('clippy-bubble');
+    if (bubbleElement) {
+        bubbleElement.addEventListener('click', () => {
+            if (window.ClippyAgent && typeof window.ClippyAgent.hide === 'function') {
+                window.ClippyAgent.hide();
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        });
+    }
+
     let mouseX = 0;
     let mouseY = 0;
 
