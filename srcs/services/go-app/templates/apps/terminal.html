@@ -22,7 +22,7 @@
             </template>
             
             <div class="terminal-input-line">
-                <span class="terminal-prompt">user@solar:~$</span>
+                <span class="terminal-prompt" x-text="(isGuest ? 'guest' : getUsername(currentUser).toLowerCase()) + '@' + (metric.data.os ? metric.data.os.toLowerCase() : 'solar') + ':~$'"></span>
                 <input type="text" 
                        x-ref="termInput"
                        x-model="terminal.input" 

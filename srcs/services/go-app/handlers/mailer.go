@@ -29,12 +29,12 @@ func sendVerificationEmail(to, token string) error {
 
 	subject := "Conferma il tuo indirizzo email"
 	
-	// Utilizziamo un corpo in formato HTML per proteggere l'integrità strutturale dell'URL
+	// Utilizziamo un corpo in formato HTML con lo stile del link blu classico sottolineato
 	body := fmt.Sprintf(
 		"<html><body>"+
 			"<p>Ciao!</p>"+
 			"<p>Clicca sul link qui sotto per confermare il tuo account su Solar City:</p>"+
-			"<p><a href=\"%s\" style=\"color: #00ffcc; text-decoration: none; font-weight: bold;\">%s</a></p>"+
+			"<p><a href=\"%s\" style=\"color: #0000ee; text-decoration: underline; font-weight: bold;\">%s</a></p>"+
 			"<p>Questo link scadrà tra 24 ore.</p>"+
 			"<p style=\"color: #888; font-size: 0.8rem;\">Se non hai richiesto questa registrazione, ignora pure questa email.</p>"+
 			"</body></html>",

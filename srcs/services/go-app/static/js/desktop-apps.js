@@ -100,9 +100,11 @@ const DesktopApps = {
         desktop.terminal.input = '';
         if (!rawInput) return;
 
-        // Stampa il prompt di comando inviato dall'utente
+        const userPrompt = (desktop.isGuest ? 'guest' : desktop.getUsername(desktop.currentUser).toLowerCase()) + '@' + (desktop.metric.data.os ? desktop.metric.data.os.toLowerCase() : 'solar');
+
+        // Stampa il prompt di comando inviato dall'utente con l'identità corretta
         desktop.terminal.history.push(
-            `<span style="color: var(--accent-color);">user@pc:~$</span> ${rawInput}`
+            `<span style="color: var(--accent-color);">${userPrompt}:~$</span> ${rawInput}`
         );
 
         // Se l'interprete restituisce una Promise (es. OUI lookup), gestiamo il rendering differito

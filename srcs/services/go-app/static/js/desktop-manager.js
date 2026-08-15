@@ -70,6 +70,11 @@ const initDesktop = () => {
                 this.isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
             });
 
+            // Estrae immediatamente i dati metrici locali per valorizzare l'ambiente di sistema
+            if (typeof metricCollector !== 'undefined') {
+                this.metric.data = metricCollector.collect();
+            }
+
             // Sincronizza i file persistenti dal database
             fetch('/api/files')
                 .then(res => res.json())
@@ -118,16 +123,21 @@ const initDesktop = () => {
                 .then(ip => { this.userIP = ip; })
                 .catch(() => { this.userIP = '127.0.0.1'; });
 
-            // Messaggio di benvenuto da Clippy
+            // Gestione della memoria del primo accesso per Clippy
             setTimeout(() => {
-                if (this.isGuest) {
+                const userKey = this.isGuest ? 'guest' : this.getUsername(this.currentUser);
+                const storageKey = `solar_visited_${userKey}`;
+                const hasVisited = localStorage.getItem(storageKey);
+
+                if (!hasVisited) {
+                    localStorage.setItem(storageKey, 'true');
                     window.ClippyAgent.say(
-                        "Benvenuto nel sistema come Guest. Registrati se desideri sbloccare la persistenza e creare nuovi file!",
+                        "Benvenuto a Solar City!",
                         { tts: true, delay: 5000 }
                     );
                 } else {
                     window.ClippyAgent.say(
-                        `Bentornato nel sistema, ${this.getUsername(this.currentUser)}!`,
+                        `Bentornato, ${this.getUsername(this.currentUser)}!`,
                         { tts: true, delay: 5000 }
                     );
                 }

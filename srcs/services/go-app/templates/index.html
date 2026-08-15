@@ -37,11 +37,9 @@
 <body>
 
     <div id="content-area"
-        x-data="{ showVerifiedToast: false }"
         x-init="
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('verified') === '1') {
-                showVerifiedToast = true;
                 const verifiedUser = urlParams.get('user') || 'utente';
                 
                 // Richiediamo a Clippy di parlare con la frase desiderata
@@ -51,13 +49,8 @@
                 });
 
                 history.replaceState({}, '', window.location.pathname);
-                setTimeout(() => showVerifiedToast = false, 4000);
             }
         ">
-
-        <div class="toast toast--success" x-show="showVerifiedToast" x-transition x-cloak>
-            Email confermata.
-        </div>
 
         <!-- Se l'utente è autenticato, includiamo direttamente il desktop,
              altrimenti mostriamo la schermata di login/iscrizione -->
