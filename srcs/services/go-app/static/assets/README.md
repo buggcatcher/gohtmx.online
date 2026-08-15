@@ -57,9 +57,6 @@ Sfrutta i blocchi di citazione speciali per richiamare l'attenzione del lettore 
 > [!TIP]
 > Ecco un suggerimento utile: usa il tasto destro sullo sfondo del desktop per aprire il Terminale emulato e digita `neofetch`.
 
-> [!IMPORTANT]
-> Questo è un avviso informativo standard, ideale per annotazioni generali o note di configurazione del server.
-
 > [!WARNING]
 > Attenzione: la sessione utente scade automaticamente dopo 7 giorni di inattività.
 

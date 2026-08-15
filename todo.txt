@@ -3,18 +3,19 @@
 BUGS:
 - se si aprono tanti visualizatori va in overheat ed eventualmente crasha     [ ]
 - fingerprint exact os extraction -> terminal @os                             [ ] 
+- benvenuto a solar city texttospeech missing                                 [ ]
 
 
 FOR LATER:
 - CV app                                                                      [ ]
-- editor markdown highlights                                                  [x]
-- fix codeblock prewiew markdown parser finestra a parte?                     [x]
+- quando clicchi sulla nuvola mid talk scoppia e scompare                     [ ]
+- quando il menu context è attivo clippy non deve essere cliccabile           [ ]
+- migliora colori blocco codice                                               [ ]
 - con il terminale showcase librerie e progetti c e cpp                       [ ]
-- viewer di un file .txt non deve renderizzare come un .md                    [x]
 - sistema logica fetch/incrocio/assegnazione città e paese                    [ ]
 - carica file da mobile                                                       [ ]
 - menu option: rinomina                                                       [ ]
-- cartelle permessi speciali?
+- cartella privata: scegli chi può aprirla                                    [ ]
 - comando terminale: info                                                     [ ]
 - una cartella per utente con depth = 1                                       [ ]
 - profilo customizzabile                                                      [ ]
