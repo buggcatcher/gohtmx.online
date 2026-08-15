@@ -15,16 +15,19 @@
                   :style="isMobile ? 'height: calc(100% - 60px);' : 'height: 320px;'"
                   style="width: 100%; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 8px; resize: none; font-family: monospace; box-sizing: border-box;"></textarea>
         
-        <!-- Pulsante di salvataggio disponibile solo se non si è guest e non si sta modificando il readme -->
-        <button class="btn-access" 
-                x-show="!isGuest && (editor.targetFile && editor.targetFile.id !== 'readme')" 
-                @click="saveFile()" 
-                style="margin-top: 10px; font-size: 0.9rem; padding: 6px 15px;">Salva Modifiche</button>
-        
-        <!-- Indicatore di stato e permessi in base al contesto del file caricato -->
-        <div x-show="isGuest || (editor.targetFile && editor.targetFile.id === 'readme')" 
-             style="margin-top: 12px; font-size: 0.85rem; color: #ff5f56; font-family: sans-serif; display: flex; align-items: center; gap: 6px;">
-            <span x-text="editor.targetFile && editor.targetFile.id === 'readme' ? 'Documento di sistema protetto in sola lettura' : 'Modalità sola lettura (Accedi per salvare le modifiche)'"></span>
+        <!-- Area azioni inferiore allineata a sinistra -->
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 10px; min-height: 32px;">
+            <!-- Pulsante di salvataggio disponibile solo se non si è guest e non si sta modificando il readme -->
+            <button class="btn-access" 
+                    x-show="!isGuest && (editor.targetFile && editor.targetFile.id !== 'readme')" 
+                    @click="saveFile()" 
+                    style="font-size: 0.9rem; padding: 6px 15px; border-radius: 6px; box-shadow: none;">Salva Modifiche</button>
+            
+            <!-- Indicatore di stato e permessi in base al contesto del file caricato -->
+            <div x-show="isGuest || (editor.targetFile && editor.targetFile.id === 'readme')" 
+                 style="font-size: 0.85rem; color: #ff5f56; font-family: sans-serif; display: flex; align-items: center; gap: 6px;">
+                <span x-text="editor.targetFile && editor.targetFile.id === 'readme' ? 'Documento di sistema protetto in sola lettura' : 'Modalità sola lettura (Accedi per salvare le modifiche)'"></span>
+            </div>
         </div>
     </div>
 </div>

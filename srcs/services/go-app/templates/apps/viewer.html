@@ -9,8 +9,11 @@
         <button class="close-btn" @click="viewer.show = false"></button>
     </div>
     <div class="window-body" 
+         @touchstart.stop
+         @touchmove.stop
+         @touchend.stop
          :style="isMobile ? 'height: calc(100% - 42px); padding: 15px;' : 'height: 440px; padding: 25px;'"
-         style="overflow-y: auto; background: #1a1a24; box-sizing: border-box;">
+         style="overflow-y: auto; -webkit-overflow-scrolling: touch; background: #1a1a24; box-sizing: border-box;">
         <div class="markdown-preview" x-html="parseMarkdown(viewer.targetFile ? viewer.targetFile.content : '')"></div>
     </div>
 </div>

@@ -1,6 +1,8 @@
 
 
 BUGS:
+- se ruoto l'iphone (sia safari che firefox) mi si apre la schermata system 
+  auditor dell' app fingerprint e resta impiantato lì                         [ ]
 - viewer di un file .txt non deve renderizzare come un .md                    [ ]
 - fix codeblock prewiew markdown parser                                       [ ]
 - quando clicchi la nota che riporta a piè di pagina va tutto su              [ ]
