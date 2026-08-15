@@ -1,8 +1,8 @@
 <div class="window-overlay" 
      x-show="viewer.show" 
      :style="isMobile 
-        ? 'left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
-        : 'left: ' + viewer.px + 'px; top: ' + viewer.py + 'px; width: 760px;'"
+        ? 'position: fixed; left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
+        : 'position: absolute; left: ' + viewer.px + 'px; top: ' + viewer.py + 'px; width: 760px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, viewer)">
         <span x-text="'Visualizzatore - ' + (viewer.targetFile ? viewer.targetFile.name : '')"></span>

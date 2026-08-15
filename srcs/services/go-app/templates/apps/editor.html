@@ -1,14 +1,18 @@
 <div class="window-overlay" 
      x-show="editor.show" 
      :style="isMobile 
-        ? 'left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
-        : 'left: ' + editor.px + 'px; top: ' + editor.py + 'px; width: 680px;'"
+        ? 'position: fixed; left: 0px; top: 50px; width: 100%; height: calc(100% - 50px); border-radius: 0;' 
+        : 'position: absolute; left: ' + editor.px + 'px; top: ' + editor.py + 'px; width: 680px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, editor)">
         <span x-text="'Editor - ' + (editor.targetFile ? editor.targetFile.name : '')"></span>
         <button class="close-btn" @click="editor.show = false"></button>
     </div>
-    <div class="window-body" :style="isMobile ? 'height: calc(100% - 42px);' : ''">
+    <div class="window-body" 
+         @touchstart.stop
+         @touchmove.stop
+         @touchend.stop
+         :style="isMobile ? 'height: calc(100% - 42px);' : ''">
         <!-- Rende l'area di testo readonly se l'utente è guest o se si tratta del readme di sistema -->
         <textarea x-model="editor.tempContent" 
                   :readonly="isGuest || (editor.targetFile && editor.targetFile.id === 'readme')" 

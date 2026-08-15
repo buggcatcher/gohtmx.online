@@ -9,14 +9,18 @@ body {
     color: #ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
+    position: fixed;
 }
+
 #content-area {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 .landing-panel {
     text-align: center;
@@ -67,12 +71,13 @@ body {
     grid-template-rows: 50px 1fr;
     width: 100%;
     height: 100%;
+    position: relative; /* Ancoraggio rigido per tutte le finestre assolute */
+    overflow: hidden;   /* Impedisce ai figli di estendere l'area di lavoro */
     
-    /* Configurazione dell'immagine di sfondo */
     background-image: url('/static/assets/wallpaper.png');
-    background-size: cover;             /* Ridimensiona l'immagine per coprire l'intera area */
-    background-position: center;        /* Centra l'immagine sia in verticale che in orizzontale */
-    background-repeat: no-repeat;       /* Evita la ripetizione dell'immagine */
+    background-size: cover;             
+    background-position: center;        
+    background-repeat: no-repeat;       
     
     transition: background-color 0.3s;
 }
