@@ -166,9 +166,9 @@ body {
 
 /* DRAGGABLE WINDOW OVERLAYS */
 .window-overlay {
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important; /* Impedisce al contenuto di uscire dai bordi */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Impedisce al contenuto di uscire dai bordi */
     
     position: absolute;
     background: rgba(30, 30, 30, 0.95);
@@ -180,7 +180,7 @@ body {
 }
 
 .window-header {
-    flex: 0 0 auto !important; /* Altezza fissa basata sul contenuto */
+    flex: 0 0 auto; /* Altezza fissa basata sul contenuto */
     background: rgba(15, 15, 15, 0.9);
     padding: 10px 15px;
     cursor: move;
@@ -192,9 +192,9 @@ body {
 }
 
 .window-body {
-    flex: 1 1 auto !important; /* Occupa tutto lo spazio rimanente */
-    overflow-y: auto !important; /* Abilita lo scroll verticale */
-    -webkit-overflow-scrolling: touch !important; /* Scorrimento fluido iOS */
+    flex: 1 1 auto; /* Occupa tutto lo spazio rimanente */
+    overflow-y: auto; /* Abilita lo scroll verticale */
+    -webkit-overflow-scrolling: touch; /* Scorrimento fluido iOS */
     box-sizing: border-box;
 }
 
