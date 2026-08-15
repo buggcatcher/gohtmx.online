@@ -14,6 +14,7 @@ BUGS:
 
 
 FOR LATER:
+- user@iOS or user@android instead of user @solar                             [ ]
 - if primo log "benvenuto" al posto di "bentornato"                           [ ]
 - editor markdown highlights                                                  [ ]
 - menu option: rinomina                                                       [ ]

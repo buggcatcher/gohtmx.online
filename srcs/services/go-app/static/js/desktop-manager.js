@@ -222,8 +222,8 @@ const initDesktop = () => {
          * Gestisce l'avvio del tocco per il long press
          */
         handleTouchStart(event, file = null) {
-            // Se il tocco avviene all'interno di una finestra aperta, ignoriamo per non interferire con lo scroll nativo
-            if (event.target.closest('.window-overlay')) {
+            // Se il tocco avviene all'interno di una finestra o del menu, ignoriamo
+            if (event.target.closest('.window-overlay') || event.target.closest('.context-menu')) {
                 return;
             }
             if (event.touches.length !== 1) return;
@@ -232,7 +232,6 @@ const initDesktop = () => {
             if (this.longPressTimer) clearTimeout(this.longPressTimer);
 
             this.longPressTimer = setTimeout(() => {
-                event.preventDefault();
                 const fakeEvent = {
                     clientX: touch.clientX,
                     clientY: touch.clientY,

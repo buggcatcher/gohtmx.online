@@ -81,6 +81,7 @@ body {
     
     transition: background-color 0.3s;
 }
+
 /* Modifica dello stato di trascinamento: usiamo 'background-color' invece della proprietà 
    shorthand 'background' per evitare di sovrascrivere o eliminare l'immagine di sfondo.*/
 .desktop-workspace.drag-active {
@@ -165,6 +166,10 @@ body {
 
 /* DRAGGABLE WINDOW OVERLAYS */
 .window-overlay {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important; /* Impedisce al contenuto di uscire dai bordi */
+    
     position: absolute;
     background: rgba(30, 30, 30, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -173,7 +178,9 @@ body {
     z-index: 100;
     color: white;
 }
+
 .window-header {
+    flex: 0 0 auto !important; /* Altezza fissa basata sul contenuto */
     background: rgba(15, 15, 15, 0.9);
     padding: 10px 15px;
     cursor: move;
@@ -183,9 +190,15 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     user-select: none;
 }
+
 .window-body {
-    padding: 15px;
+    flex: 1 1 auto !important; /* Occupa tutto lo spazio rimanente */
+    overflow-y: auto !important; /* Abilita lo scroll verticale */
+    -webkit-overflow-scrolling: touch !important; /* Scorrimento fluido iOS */
+    box-sizing: border-box;
 }
+
+/* Correzione pulsante di chiusura */
 .close-btn {
     background: #ff5f56;
     border: none;
@@ -201,7 +214,7 @@ body {
     top: -15px;
     left: -15px;
     right: -15px;
-    bottom: -15px;
+    bottom: -15px; /* Espande l'area di tocco a 44x44px */
 }
 
 /* CLIPPY CONTAINER */
@@ -708,4 +721,30 @@ body {
 #clippy-container {
     z-index: 9999 !important;
     transform: translateZ(9999px) !important;
+}
+
+/* Disattiva la selezione del testo e i popup nativi sulle aree del desktop e icone */
+.desktop-workspace, 
+.desktop-grid, 
+.desktop-icon,
+.nav-logo,
+.nav-user {
+    -webkit-touch-callout: none !important; /* Disattiva popup nativo iOS */
+    -webkit-user-select: none !important;   /* Safari */
+    -khtml-user-select: none !important;     /* Konqueror HTML */
+    -moz-user-select: none !important;       /* Firefox */
+    -ms-user-select: none !important;        /* IE/Edge */
+    user-select: none !important;            /* Standard */
+}
+
+/* Consente esplicitamente la selezione del testo solo nei contenuti utili */
+.window-body, 
+.markdown-preview, 
+.terminal-body,
+.input-field,
+textarea {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
 }
