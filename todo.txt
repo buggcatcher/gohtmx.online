@@ -26,6 +26,17 @@ WORK IN PROGRESS:
 - irc chat                                                                    [ ]
 - <no-reply> confirmation email                                               [ ]                                      
 - security audit                                                              [ ]
+- touch new terminal command                                                  [x]
+- Rinomina prewiew da peer a teck stack showcase                              [ ]
+- togliere /sretna                                                            [ ]
+- robots.txt                                                                  [ ]
+- - rss? orange icon on bottom of pages sometimes                             [ ]
+- multitenant per contenuti personalizzati                                    [ ]
+- upload terminal + carica when mobile                                        [X]
+- far dire di fare doppio tap sulle icone a clippy                            [ ]
+- touch; echo "testo"                                                         [x]
+- touch && cat                                                                [x]
+- >> redirezione per immettere testo nel filecon firma dell' autore           [x]
 
 
 
