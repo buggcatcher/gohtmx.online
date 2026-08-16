@@ -18,6 +18,7 @@
         <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 10px; min-height: 32px;">
             <button class="btn-access" 
                     x-show="!isGuest && (editor.targetFile && editor.targetFile.id !== 'readme')" 
+                    :disabled="isProcessing"
                     @click="saveFile()" 
                     style="font-size: 0.9rem; padding: 6px 15px; border-radius: 6px; box-shadow: none;" x-text="t('save_changes')"></button>
             

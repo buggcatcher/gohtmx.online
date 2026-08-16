@@ -43,7 +43,24 @@ const translationDictionary = {
             read_only_sys: "Documento di sistema protetto in sola lettura",
             read_only_guest: "Modalità sola lettura (Accedi per salvare le modifiche)",
             viewer_title: "Visualizzatore",
-            none_content: "Nessun contenuto da visualizzare."
+            none_content: "Nessun contenuto da visualizzare.",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "Sei proprio tu {user}? Ora puoi accedere!",
+            register_success: "Quasi fatto, {user}! Ti ho inviato una mail di conferma. Clicca sul link per attivare l'account ed accedere.",
+            err_file_ext: "Attenzione! Il nome del file deve terminare obbligatoriamente con l'estensione .txt oppure .md.",
+            guest_read_only_file: "Nuovo file locale creato in sola lettura. Accedi per salvare sul database persistente!",
+            file_created_db: "Ottimo! Il tuo nuovo file è stato registrato nel database Postgres.",
+            err_create_prefix: "Errore di creazione: ",
+            file_saved_db: "File salvato con successo sul database remoto.",
+            err_save_db: "Ops! Si è verificato un errore durante la scrittura del file in Postgres.",
+            file_removed_local: "File temporaneo rimosso dal workspace locale.",
+            file_removed_db: "Non c'è né paradiso né inferno per i file rimossi.",
+            err_remove_db: "Impossibile completare la rimozione del file.",
+            err_drag_guest: "Attenzione: devi prima effettuare l'accesso per poter caricare file sul cloud via drag and drop.",
+            err_file_too_large: "File troppo grande! La dimensione massima consentita per caricamento è 42 KB.",
+            file_uploaded_success: "File \"{name}\" caricato con successo.",
+            err_upload_prefix: "Errore di upload: "
         }
     },
     hr: {
@@ -86,7 +103,24 @@ const translationDictionary = {
             read_only_sys: "Sustavni dokument zaštićen je i može se samo čitati",
             read_only_guest: "Samo za čitanje (Prijavite se za spremanje promjena)",
             viewer_title: "Preglednik",
-            none_content: "Nema sadržaja za prikaz."
+            none_content: "Nema sadržaja za prikaz.",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "Jesi li to stvarno ti, {user}? Sada se možeš prijaviti!",
+            register_success: "Skoro gotovo, {user}! Poslao sam ti e-poštu za potvrdu. Klikni na poveznicu za aktivaciju računa i prijavu.",
+            err_file_ext: "Upozorenje! Naziv datoteke mora završavati ekstenzijom .txt ili .md.",
+            guest_read_only_file: "Stvorena je nova lokalna datoteka samo za čitanje. Prijavi se za spremanje u trajnu bazu podataka!",
+            file_created_db: "Odlično! Tvoja nova datoteka registrirana je u Postgres bazi podataka.",
+            err_create_prefix: "Greška pri stvaranju: ",
+            file_saved_db: "Datoteka je uspješno spremljena u udaljenu bazu podataka.",
+            err_save_db: "Ops! Dogodila se pogreška prilikom pisanja datoteke u Postgres.",
+            file_removed_local: "Privremena datoteka uklonjena je iz lokalnog radnog prostora.",
+            file_removed_db: "Nema ni raja ni pakla za uklonjene datoteke.",
+            err_remove_db: "Nije moguće dovršiti uklanjanje datoteke.",
+            err_drag_guest: "Upozorenje: prvo se moraš prijaviti da bi mogao prenositi datoteke u oblak povlačenjem i ispuštanjem.",
+            err_file_too_large: "Datoteka je prevelika! Maksimalna dopuštena veličina prijenosa je 42 KB.",
+            file_uploaded_success: "Datoteka \"{name}\" uspješno je prenesena.",
+            err_upload_prefix: "Greška pri prijenosu: "
         }
     },
     fr: {
@@ -129,7 +163,24 @@ const translationDictionary = {
             read_only_sys: "Document système protégé en lecture seule",
             read_only_guest: "Mode lecture seule (Connectez-vous pour enregistrer)",
             viewer_title: "Visualiseur",
-            none_content: "Aucun contenu à afficher."
+            none_content: "Aucun contenu à afficher.",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "C'est bien toi {user} ? Tu peux maintenant te connecter !",
+            register_success: "Presque fini, {user} ! Je t'ai envoyé un e-mail de confirmation. Clique sur le lien pour activer ton compte et te connecter.",
+            err_file_ext: "Attention ! Le nom du fichier doit obligatoirement se terminer par l'extension .txt ou .md.",
+            guest_read_only_file: "Nouveau fichier local en lecture seule créé. Connectez-vous pour enregistrer dans la base de données !",
+            file_created_db: "Super ! Votre nouveau fichier a été enregistré dans la base de données Postgres.",
+            err_create_prefix: "Erreur de création : ",
+            file_saved_db: "Fichier enregistré avec succès dans la base de données distante.",
+            err_save_db: "Oups ! Une erreur est survenue lors de l'écriture du fichier dans Postgres.",
+            file_removed_local: "Fichier temporaire supprimé de l'espace de travail local.",
+            file_removed_db: "Il n'y a ni paradis ni enfer pour les fichiers supprimés.",
+            err_remove_db: "Impossible de terminer la suppression du fichier.",
+            err_drag_guest: "Attention : vous devez d'abord vous connecter pour télécharger des fichiers sur le cloud via glisser-déposer.",
+            err_file_too_large: "Fichier trop volumineux ! La taille maximale de téléchargement autorisée est de 42 Ko.",
+            file_uploaded_success: "Fichier \"{name}\" téléchargé avec succès.",
+            err_upload_prefix: "Erreur de téléchargement : "
         }
     },
     es: {
@@ -172,7 +223,24 @@ const translationDictionary = {
             read_only_sys: "Documento de sistema protegido en modo de solo lectura",
             read_only_guest: "Modo de solo lectura (Inicie sesión para guardar cambios)",
             viewer_title: "Visor",
-            none_content: "No hay contenido para mostrar."
+            none_content: "No hay contenido para mostrar.",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "¿Realmente eres tú {user}? ¡Ahora puedes iniciar sesión!",
+            register_success: "¡Casi listo, {user}! Te he enviado un correo de confirmación. Haz clic en el enlace para activar tu cuenta e iniciar sesión.",
+            err_file_ext: "¡Atención! El nombre del archivo debe terminar obligatoriamente con la extensión .txt o .md.",
+            guest_read_only_file: "Nuevo archivo local de solo lectura creado. ¡Inicia sesión para guardar en la base de datos persistente!",
+            file_created_db: "¡Excelente! Tu nuevo archivo ha sido registrado en la base de datos Postgres.",
+            err_create_prefix: "Error de creación: ",
+            file_saved_db: "Archivo guardado con éxito en la base de datos remota.",
+            err_save_db: "¡Ops! Ocurrió un error al escribir el archivo en Postgres.",
+            file_removed_local: "Archivo temporal eliminado del espacio de trabajo local.",
+            file_removed_db: "No hay cielo ni infierno para los archivos eliminados.",
+            err_remove_db: "No se pudo completar la eliminación del archivo.",
+            err_drag_guest: "Atención: primero debes iniciar sesión para subir archivos a la nube mediante arrastrar y soltar.",
+            err_file_too_large: "¡Archivo demasiado grande! El tamaño máximo de subida permitido es de 42 KB.",
+            file_uploaded_success: "Archivo \"{name}\" subido con éxito.",
+            err_upload_prefix: "Error de subida: "
         }
     },
     de: {
@@ -215,7 +283,24 @@ const translationDictionary = {
             read_only_sys: "Systemdokument geschützt (nur Lesezugriff)",
             read_only_guest: "Schreibgeschützter Modus (Anmelden zum Speichern)",
             viewer_title: "Betrachter",
-            none_content: "Kein Inhalt zum Anzeigen vorhanden."
+            none_content: "Kein Inhalt zum Anzeigen vorhanden.",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "Bist du das wirklich, {user}? Jetzt kannst du dich anmelden!",
+            register_success: "Fast fertig, {user}! Ich habe dir eine Bestätigungs-E-Mail gesendet. Klicke auf den Link, um dein Konto zu aktivieren und dich anzumelden.",
+            err_file_ext: "Achtung! Der Dateiname muss zwingend mit der Endung .txt oder .md enden.",
+            guest_read_only_file: "Neue lokale schreibgeschützte Datei erstellt. Melde dich an, um in der persistenten Datenbank zu speichern!",
+            file_created_db: "Großartig! Deine neue Datei wurde in der Postgres-Datenbank registriert.",
+            err_create_prefix: "Fehler beim Erstellen: ",
+            file_saved_db: "Datei erfolgreich in der Remote-Datenbank gespeichert.",
+            err_save_db: "Hoppla! Beim Schreiben der Datei in Postgres ist ein Fehler aufgetreten.",
+            file_removed_local: "Temporäre Datei aus dem lokalen Arbeitsbereich entfernt.",
+            file_removed_db: "Es gibt weder Himmel noch Hölle für entfernte Dateien.",
+            err_remove_db: "Die Datei konnte nicht gelöscht werden.",
+            err_drag_guest: "Achtung: Sie müssen sich zuerst anmelden, um Dateien per Drag & Drop in die Cloud hochzuladen.",
+            err_file_too_large: "Datei zu groß! Die maximal zulässige Upload-Größe beträgt 42 KB.",
+            file_uploaded_success: "Datei \"{name}\" erfolgreich hochgeladen.",
+            err_upload_prefix: "Upload-Fehler: "
         }
     },
     uk: {
@@ -258,7 +343,24 @@ const translationDictionary = {
             read_only_sys: "System protected read-only document",
             read_only_guest: "Read-only mode (Log in to save changes)",
             viewer_title: "Viewer",
-            none_content: "No content to display."
+            none_content: "No content to display.",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "Is that really you {user}? Now you can log in!",
+            register_success: "Almost done, {user}! I sent you a confirmation email. Click the link to activate your account and log in.",
+            err_file_ext: "Warning! The file name must end with either .txt or .md extension.",
+            guest_read_only_file: "New local read-only file created. Log in to save to the persistent database!",
+            file_created_db: "Great! Your new file has been registered in the Postgres database.",
+            err_create_prefix: "Creation error: ",
+            file_saved_db: "File saved successfully to the remote database.",
+            err_save_db: "Oops! An error occurred while writing the file to Postgres.",
+            file_removed_local: "Temporary file removed from the local workspace.",
+            file_removed_db: "There is neither heaven nor hell for removed files.",
+            err_remove_db: "Unable to complete the removal of the file.",
+            err_drag_guest: "Warning: you must first log in to upload files to the cloud via drag and drop.",
+            err_file_too_large: "File too large! The maximum allowed upload size is 42 KB.",
+            file_uploaded_success: "File \"{name}\" uploaded successfully.",
+            err_upload_prefix: "Upload error: "
         }
     },
     cn: {
@@ -301,7 +403,24 @@ const translationDictionary = {
             read_only_sys: "受保护的系统级文件，目前处于只读状态",
             read_only_guest: "只读模式 (请登录以保存所做的更改)",
             viewer_title: "阅读器",
-            none_content: "暂无可显示内容。"
+            none_content: "暂无可显示内容。",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "真的是你吗 {user}？现在你可以登录了！",
+            register_success: "差不多了，{user}！我给你发了一封确认邮件。点击链接激活你的账户并登录。",
+            err_file_ext: "警告！文件名必须以 .txt 或 .md 后缀结尾。",
+            guest_read_only_file: "已创建新的只读本地文件。登录以保存到持久数据库！",
+            file_created_db: "太棒了！你的新文件已注册到 Postgres 数据库。",
+            err_create_prefix: "创建错误：",
+            file_saved_db: "文件成功保存到远程数据库。",
+            err_save_db: "糟糕！将文件写入 Postgres 时发生错误。",
+            file_removed_local: "临时文件已从本地工作区移除。",
+            file_removed_db: "被删除的文件既没有天堂也没有地狱。",
+            err_remove_db: "无法完成文件的删除。",
+            err_drag_guest: "警告：您必须先登录才能通过拖放方式将文件上传到云端。",
+            err_file_too_large: "文件太大！允许的最大上传大小为 42 KB。",
+            file_uploaded_success: "文件 \"{name}\" 上传成功。",
+            err_upload_prefix: "上传错误："
         }
     },
     jp: {
@@ -344,7 +463,24 @@ const translationDictionary = {
             read_only_sys: "保護されたシステムファイル (読み取り専用)",
             read_only_guest: "読み取り専用モード (保存するにはログインしてください)",
             viewer_title: "ビューアー",
-            none_content: "表示するコンテンツがありません。"
+            none_content: "表示するコンテンツがありません。",
+            
+            // Nuove stringhe Clippy
+            verified_welcome: "本当にあなたですか、{user}？ログインできるようになりました！",
+            register_success: "ほぼ完了です、{user}！確認メールを送信しました。リンクをクリックしてアカウントを有効にし、ログインしてください。",
+            err_file_ext: "警告！ファイル名は必ず.txtまたは.md拡張子で終わる必要があります。",
+            guest_read_only_file: "新しいローカル読み取り専用ファイルが作成されました。永続データベースに保存するにはログインしてください！",
+            file_created_db: "素晴らしい！新しいファイルがPostgresデータベースに登録されました。",
+            err_create_prefix: "作成エラー：",
+            file_saved_db: "リモートデータベースにファイルを正常に保存しました。",
+            err_save_db: "おっと！Postgresへのファイル書き込み中にエラーが発生しました。",
+            file_removed_local: "一時ファイルがローカルワークスペースから削除されました。",
+            file_removed_db: "削除されたファイルには天国も地獄もありません。",
+            err_remove_db: "ファイルの削除を完了できません。",
+            err_drag_guest: "警告：ドラッグ＆ドロップでファイルをクラウドにアップロードするには、まずログインする必要があります。",
+            err_file_too_large: "ファイルが大きすぎます！アップロード可能な最大サイズは42 KBです。",
+            file_uploaded_success: "ファイル「{name}」が正常にアップロードされました。",
+            err_upload_prefix: "アップロードエラー："
         }
     }
 };
@@ -352,4 +488,11 @@ const translationDictionary = {
 window.translate = function(lang, key) {
     const dict = translationDictionary[lang] || translationDictionary['it'];
     return dict.strings[key] || key;
+};
+
+// Funzione helper globale per dedurre rapidamente la lingua impostata sul client
+window.getActiveLang = function() {
+    const match = document.cookie.match(/(?:^|; )lang=([^;]*)/);
+    if (match && match[1]) return match[1];
+    return 'it';
 };

@@ -11,10 +11,10 @@
     </div>
     <div class="window-body">
         <div style="margin-bottom: 12px; font-size: 0.9rem; color: #aaa;" x-text="t('new_file') + ' (.txt o .md):'"></div>
-        <input type="text" x-model="creator.name" @keydown.enter="createFile()" class="input-field" style="width: 100%; box-sizing: border-box; margin-bottom: 15px;" placeholder="appunti.md" autofocus>
+        <input type="text" x-model="creator.name" :disabled="isProcessing" @keydown.enter="createFile()" class="input-field" style="width: 100%; box-sizing: border-box; margin-bottom: 15px;" placeholder="appunti.md" autofocus>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn-toggle" @click="creator.show = false" style="padding: 6px 15px; font-size: 0.85rem;" x-text="t('cancel')"></button>
-            <button class="btn-access" @click="createFile()" style="padding: 6px 15px; font-size: 0.85rem; border-radius: 6px; box-shadow: none;" x-text="t('create')"></button>
+            <button class="btn-toggle" :disabled="isProcessing" @click="creator.show = false" style="padding: 6px 15px; font-size: 0.85rem;" x-text="t('cancel')"></button>
+            <button class="btn-access" :disabled="isProcessing" @click="createFile()" style="padding: 6px 15px; font-size: 0.85rem; border-radius: 6px; box-shadow: none;" x-text="t('create')"></button>
         </div>
     </div>
 </div>

@@ -14,6 +14,7 @@ const initDesktop = () => {
         dragOver: false,
         longPressTimer: null,
         isMobile: window.innerWidth <= 768 || window.innerHeight <= 480,
+        isProcessing: false,
         
         // File di default (readme asincrono e metric app)
         files: [
@@ -304,11 +305,15 @@ const initDesktop = () => {
             }
         },
 
-        // File operations
+        // Operazioni file con lock anti-duplicazione
         createFile() {
+            if (this.isProcessing) return;
+            this.isProcessing = true;
             DesktopFileOps.createFile(this);
         },
         saveFile() {
+            if (this.isProcessing) return;
+            this.isProcessing = true;
             DesktopFileOps.saveFile(this);
         },
         deleteFile(file) {

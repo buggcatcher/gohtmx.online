@@ -42,9 +42,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('verified') === '1') {
                 const verifiedUser = urlParams.get('user') || 'utente';
+                const activeLang = window.getActiveLang ? window.getActiveLang() : 'it';
+                const msg = (window.translate ? window.translate(activeLang, 'verified_welcome') : 'Benvenuto {user}!').replace('{user}', verifiedUser);
                 
-                // Richiediamo a Clippy di parlare con la frase desiderata
-                window.ClippyAgent.say('Sei proprio tu ' + verifiedUser + '? Ora puoi accedere!', {
+                // Richiediamo a Clippy di parlare localizzato
+                window.ClippyAgent.say(msg, {
                     tts: true,
                     delay: 6000
                 });
@@ -187,8 +189,10 @@
         document.body.addEventListener('userRegistered', function(evt) {
             const email = evt.detail.email;
             const username = email.split('@')[0];
+            const activeLang = window.getActiveLang ? window.getActiveLang() : 'it';
+            const msg = (window.translate ? window.translate(activeLang, 'register_success') : 'Iscritto!').replace('{user}', username);
             
-            window.ClippyAgent.say(`Quasi fatto, ${username}! Ti ho inviato una mail di conferma. Clicca sul link per attivare l'account ed accedere.`, {
+            window.ClippyAgent.say(msg, {
                 tts: true,
                 delay: 7000
             });

@@ -8,15 +8,19 @@ const DesktopFileOps = {
      * Crea un nuovo file (locale se guest, remoto nel DB se autenticato)
      */
     createFile(desktop) {
-        if (!desktop.creator.name) return;
+        if (!desktop.creator.name) {
+            desktop.isProcessing = false;
+            return;
+        }
         const name = desktop.creator.name.trim();
 
         // Validazione estensione
         if (!name.endsWith('.txt') && !name.endsWith('.md')) {
             window.ClippyAgent.say(
-                'Attenzione! Il nome del file deve terminare obbligatoriamente con l\'estensione .txt oppure .md.',
+                desktop.t('err_file_ext'),
                 { tts: true, delay: 6000 }
             );
+            desktop.isProcessing = false;
             return;
         }
 
@@ -41,8 +45,9 @@ const DesktopFileOps = {
             });
             desktop.creator.show = false;
             desktop.creator.name = '';
+            desktop.isProcessing = false;
             window.ClippyAgent.say(
-                'Nuovo file locale creato in sola lettura. Accedi per salvare sul database persistente!',
+                desktop.t('guest_read_only_file'),
                 { tts: true, delay: 6000 }
             );
             return;
@@ -54,7 +59,10 @@ const DesktopFileOps = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: name, content: '' })
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error("Status " + res.status);
+                return res.json();
+            })
             .then(data => {
                 if (data.error) throw new Error(data.error);
                 desktop.files.push({
@@ -73,12 +81,15 @@ const DesktopFileOps = {
                 desktop.creator.show = false;
                 desktop.creator.name = '';
                 window.ClippyAgent.say(
-                    'Ottimo! Il tuo nuovo file è stato registrato nel database Postgres.',
+                    desktop.t('file_created_db'),
                     { tts: true, delay: 4000 }
                 );
             })
             .catch(err => {
-                window.ClippyAgent.say('Errore di creazione: ' + err.message, { tts: true, delay: 6000 });
+                window.ClippyAgent.say(desktop.t('err_create_prefix') + err.message, { tts: true, delay: 6000 });
+            })
+            .finally(() => {
+                desktop.isProcessing = false;
             });
     },
 
@@ -86,7 +97,10 @@ const DesktopFileOps = {
      * Salva le modifiche di un file nel DB
      */
     saveFile(desktop) {
-        if (desktop.isGuest || !desktop.editor.targetFile) return;
+        if (desktop.isGuest || !desktop.editor.targetFile) {
+            desktop.isProcessing = false;
+            return;
+        }
         
         fetch(`/api/files/${desktop.editor.targetFile.dbId}`, {
             method: 'PUT',
@@ -100,15 +114,24 @@ const DesktopFileOps = {
                     desktop.editor.targetFile.lastEditedBy = desktop.currentUser;
                     desktop.editor.show = false;
                     window.ClippyAgent.say(
-                        'File salvato con successo sul database remoto.',
+                        desktop.t('file_saved_db'),
                         { tts: true, delay: 4000 }
                     );
                 } else {
                     window.ClippyAgent.say(
-                        'Ops! Si è verificato un errore durante la scrittura del file in Postgres.',
+                        desktop.t('err_save_db'),
                         { tts: true, delay: 6000 }
                     );
                 }
+            })
+            .catch(() => {
+                window.ClippyAgent.say(
+                    desktop.t('err_save_db'),
+                    { tts: true, delay: 6000 }
+                );
+            })
+            .finally(() => {
+                desktop.isProcessing = false;
             });
     },
 
@@ -120,7 +143,7 @@ const DesktopFileOps = {
             desktop.files = desktop.files.filter(f => f.id !== file.id);
             desktop.contextMenu.show = false;
             window.ClippyAgent.say(
-                'File temporaneo rimosso dal workspace locale.',
+                desktop.t('file_removed_local'),
                 { tts: true, delay: 4000 }
             );
             return;
@@ -135,15 +158,21 @@ const DesktopFileOps = {
                     if (res.ok) {
                         desktop.files = desktop.files.filter(f => f.id !== file.id);
                         window.ClippyAgent.say(
-                            'Non c\'è ne paradiso ne inferno per i file rimossi.',
+                            desktop.t('file_removed_db'),
                             { tts: true, delay: 4000 }
                         );
                     } else {
                         window.ClippyAgent.say(
-                            'Impossibile completare la rimozione del file.',
+                            desktop.t('err_remove_db'),
                             { tts: true, delay: 6000 }
                         );
                     }
+                })
+                .catch(() => {
+                    window.ClippyAgent.say(
+                        desktop.t('err_remove_db'),
+                        { tts: true, delay: 6000 }
+                    );
                 });
         } else {
             desktop.files = desktop.files.filter(f => f.id !== file.id);
@@ -156,7 +185,7 @@ const DesktopFileOps = {
     handleDrop(desktop, event) {
         if (desktop.isGuest) {
             window.ClippyAgent.say(
-                'Attenzione: devi prima effettuare l\'accesso per poter caricare file sul cloud via drag and drop.',
+                desktop.t('err_drag_guest'),
                 { tts: true, delay: 6000 }
             );
             return;
@@ -171,7 +200,7 @@ const DesktopFileOps = {
 
         if (file.size > limitSize) {
             window.ClippyAgent.say(
-                'File troppo grande! La dimensione massima consentita per caricamento è 42 KB.',
+                desktop.t('err_file_too_large'),
                 { tts: true, delay: 6000 }
             );
             return;
@@ -210,13 +239,13 @@ const DesktopFileOps = {
                     };
                     desktop.files.push(newFile);
                     window.ClippyAgent.say(
-                        `File "${file.name}" caricato con successo.`,
+                        desktop.t('file_uploaded_success').replace('{name}', file.name),
                         { tts: true, delay: 5000 }
                     );
                 })
                 .catch(err => {
                     window.ClippyAgent.say(
-                        'Errore di upload: ' + err.message,
+                        desktop.t('err_upload_prefix') + err.message,
                         { tts: true, delay: 6000 }
                     );
                 });

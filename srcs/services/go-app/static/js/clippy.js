@@ -114,30 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(text);
                     
-                    // Dynamically retrieve localization attributes from Alpine states or DOM cookies
+                    // Recupero dinamico dei parametri regionali per la corretta sintesi vocale
                     let targetLocaleCode = 'it-IT';
                     try {
-                        const desktopEl = document.querySelector('.desktop-workspace');
-                        const landingEl = document.querySelector('.landing-panel');
-                        if (desktopEl && window.Alpine) {
-                            const data = Alpine.$data(desktopEl);
-                            if (data && data.activeLang && translationDictionary[data.activeLang]) {
-                                targetLocaleCode = translationDictionary[data.activeLang].ttsCode;
-                            }
-                        } else if (landingEl && window.Alpine) {
-                            const data = Alpine.$data(landingEl);
-                            if (data && data.activeLang && translationDictionary[data.activeLang]) {
-                                targetLocaleCode = translationDictionary[data.activeLang].ttsCode;
-                            }
-                        } else {
-                            const match = document.cookie.match(/(?:^|; )lang=([^;]*)/);
-                            const cookieLang = match ? match[1] : 'it';
-                            if (translationDictionary[cookieLang]) {
-                                targetLocaleCode = translationDictionary[cookieLang].ttsCode;
-                            }
+                        const activeLang = window.getActiveLang ? window.getActiveLang() : 'it';
+                        if (translationDictionary[activeLang]) {
+                            targetLocaleCode = translationDictionary[activeLang].ttsCode;
                         }
                     } catch(err) {
-                        console.warn("[Clippy TTS i18n] Fallback logic routing active:", err);
+                        console.warn("[Clippy TTS i18n] Errore fall-back sintesi locale:", err);
                     }
                     
                     utterance.lang = targetLocaleCode;
