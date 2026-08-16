@@ -5,15 +5,14 @@
  */
 
 const initDesktop = () => {
-    Alpine.data('desktopManager', (currentUser, isGuest) => ({
+    Alpine.data('desktopManager', (currentUser, isGuest, serverLang) => ({
         currentUser: currentUser,
         isGuest: isGuest === true || isGuest === 'true' || isGuest === 1 || isGuest === '1',
+        activeLang: serverLang || 'it',
         userIP: 'Recupero in corso...',
         sessionSeconds: 0,
         dragOver: false,
         longPressTimer: null,
-        
-        // Rilevamento dinamico dello stato mobile (sotto i 480px)
         isMobile: window.innerWidth <= 768 || window.innerHeight <= 480,
         
         // File di default (readme asincrono e metric app)
@@ -123,23 +122,40 @@ const initDesktop = () => {
                 .then(ip => { this.userIP = ip; })
                 .catch(() => { this.userIP = '127.0.0.1'; });
 
-            // Gestione della memoria del primo accesso per Clippy
+            // Gestione della memoria del primo accesso per Clippy con localizzazione
             setTimeout(() => {
                 const userKey = this.isGuest ? 'guest' : this.getUsername(this.currentUser);
                 const storageKey = `solar_visited_${userKey}`;
                 const hasVisited = localStorage.getItem(storageKey);
 
+                const greetingsWelcome = {
+                    it: "Benvenuto a Solar City!",
+                    hr: "Dobrodošli u Solar City!",
+                    fr: "Bienvenue à Solar City !",
+                    es: "¡Bienvenido a Solar City!",
+                    de: "Willkommen in Solar City!",
+                    uk: "Welcome to Solar City!",
+                    cn: "欢迎来到日光之城 (Solar City)！",
+                    jp: "ソーラーシティへようこそ！"
+                };
+                const greetingsBack = {
+                    it: "Bentornato",
+                    hr: "Dobrodošli natrag",
+                    fr: "Bon retour",
+                    es: "Bienvenido de nuevo",
+                    de: "Willkommen zurück",
+                    uk: "Welcome back",
+                    cn: "欢迎回来",
+                    jp: "おかえりなさい"
+                };
+
                 if (!hasVisited) {
                     localStorage.setItem(storageKey, 'true');
-                    window.ClippyAgent.say(
-                        "Benvenuto a Solar City!",
-                        { tts: true, delay: 5000 }
-                    );
+                    const text = greetingsWelcome[this.activeLang] || greetingsWelcome['it'];
+                    window.ClippyAgent.say(text, { tts: true, delay: 5000 });
                 } else {
-                    window.ClippyAgent.say(
-                        `Bentornato, ${this.getUsername(this.currentUser)}!`,
-                        { tts: true, delay: 5000 }
-                    );
+                    const prefix = greetingsBack[this.activeLang] || greetingsBack['it'];
+                    window.ClippyAgent.say(`${prefix}, ${this.getUsername(this.currentUser)}!`, { tts: true, delay: 5000 });
                 }
             }, 1000);
 
@@ -177,6 +193,32 @@ const initDesktop = () => {
             const m = Math.floor((this.sessionSeconds % 3600) / 60);
             const s = this.sessionSeconds % 60;
             return `${h}h ${m}m ${s}s`;
+        },
+
+        /**
+         * Cambia lingua attiva e aggiorna il cookie di sessione
+         */
+        changeLanguage(langCode) {
+            if (translationDictionary[langCode]) {
+                this.activeLang = langCode;
+                document.cookie = `lang=${langCode}; path=/; max-age=31536000; SameSite=Lax; Secure`;
+                
+                const greetings = {
+                    it: "Lingua cambiata in Italiano!",
+                    hr: "Jezik promijenjen na Hrvatski!",
+                    fr: "Langue changée en Français !",
+                    es: "¡Idioma cambiado a Español!",
+                    de: "Sprache auf Deutsch geändert!",
+                    uk: "Language changed to English!",
+                    cn: "语言已切换为中文！",
+                    jp: "言語が日本語に変更されました！"
+                };
+                window.ClippyAgent.say(greetings[langCode] || "Language updated", { tts: true, delay: 5000 });
+            }
+        },
+
+        t(key) {
+            return window.translate(this.activeLang, key);
         },
 
         /**

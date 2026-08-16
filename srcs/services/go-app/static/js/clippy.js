@@ -113,7 +113,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (settings.tts && 'speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'it-IT';
+                    
+                    // Dynamically retrieve localization attributes from Alpine states or DOM cookies
+                    let targetLocaleCode = 'it-IT';
+                    try {
+                        const desktopEl = document.querySelector('.desktop-workspace');
+                        const landingEl = document.querySelector('.landing-panel');
+                        if (desktopEl && window.Alpine) {
+                            const data = Alpine.$data(desktopEl);
+                            if (data && data.activeLang && translationDictionary[data.activeLang]) {
+                                targetLocaleCode = translationDictionary[data.activeLang].ttsCode;
+                            }
+                        } else if (landingEl && window.Alpine) {
+                            const data = Alpine.$data(landingEl);
+                            if (data && data.activeLang && translationDictionary[data.activeLang]) {
+                                targetLocaleCode = translationDictionary[data.activeLang].ttsCode;
+                            }
+                        } else {
+                            const match = document.cookie.match(/(?:^|; )lang=([^;]*)/);
+                            const cookieLang = match ? match[1] : 'it';
+                            if (translationDictionary[cookieLang]) {
+                                targetLocaleCode = translationDictionary[cookieLang].ttsCode;
+                            }
+                        }
+                    } catch(err) {
+                        console.warn("[Clippy TTS i18n] Fallback logic routing active:", err);
+                    }
+                    
+                    utterance.lang = targetLocaleCode;
                     window.speechSynthesis.speak(utterance);
                 }
 

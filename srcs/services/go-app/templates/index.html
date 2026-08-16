@@ -19,6 +19,7 @@
 
     <!-- Desktop System Modules (Modular Architecture) -->
     <!-- Ordine critico: utilities → delegations → manager → entry point -->
+    <script src="/static/js/translations.js" defer></script>
     <script src="/static/js/markdown-parser.js" defer></script>
     <script src="/static/js/terminal-interpreter.js" defer></script>
     <script src="/static/js/desktop-file-ops.js" defer></script>
@@ -63,20 +64,38 @@
                     showLoginPw: false,
                     showRegPw: false,
                     showRegPwConfirm: false,
-                    select(t) { this.tab = (this.tab === t ? null : t) }
+                    activeLang: '{{.Lang}}' || 'it',
+                    select(t) { this.tab = (this.tab === t ? null : t) },
+                    changeLanguage(langCode) {
+                        this.activeLang = langCode;
+                        document.cookie = 'lang=' + langCode + '; path=/; max-age=31536000; SameSite=Lax; Secure';
+                    },
+                    t(key) {
+                        return window.translate(this.activeLang, key);
+                    }
                 }">
 
+                <h1 x-text="t('welcome')"></h1>
+
+                <!-- Visual Language Picker (Strict Order: it -> hr -> fr -> es -> de -> uk -> cn -> jp) -->
+                <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;">
+                    <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'uk', 'cn', 'jp']">
+                        <button type="button" @click="changeLanguage(langId)" 
+                                style="background: none; border: none; font-size: 1.6rem; cursor: pointer; padding: 4px; transition: transform 0.2s;"
+                                :style="activeLang === langId ? 'transform: scale(1.3); outline: 1px solid var(--accent-color); border-radius: 4px;' : 'opacity: 0.5;'">
+                            <span x-text="translationDictionary[langId].flagSymbol"></span>
+                        </button>
+                    </template>
+                </div>
                 <h1>GoHtmx V2.1</h1>
                 <div class="auth-card">
                     <div class="tab-switch" :class="tab ? 'tab-switch--' + tab : 'tab-switch--none'" role="tablist" aria-label="Accesso account">
                         <span class="tab-indicator"></span>
                         <button type="button" class="tab-btn" :class="{ 'is-active': tab === 'login' }"
-                                role="tab" :aria-selected="tab === 'login'" @click="select('login')">
-                            Accedi
+                                role="tab" :aria-selected="tab === 'login'" @click="select('login')" x-text="t('login')">
                         </button>
                         <button type="button" class="tab-btn" :class="{ 'is-active': tab === 'register' }"
-                                role="tab" :aria-selected="tab === 'register'" @click="select('register')">
-                            Iscriviti
+                                role="tab" :aria-selected="tab === 'register'" @click="select('register')" x-text="t('register')">
                         </button>
                     </div>
 
@@ -88,11 +107,11 @@
                                   hx-post="/login" hx-target="#form-response" hx-swap="innerHTML"
                                   class="auth-form">
                                 <div class="field">
-                                    <label for="login-email">Email</label>
+                                    <label for="login-email" x-text="t('email')"></label>
                                     <input type="email" id="login-email" name="email" class="input-field" autocomplete="email" required>
                                 </div>
                                 <div class="field">
-                                    <label for="login-password">Password</label>
+                                    <label for="login-password" x-text="t('password')"></label>
                                     <div class="password-wrapper">
                                         <input :type="showLoginPw ? 'text' : 'password'" id="login-password" name="password"
                                                class="input-field" autocomplete="current-password" required>
@@ -103,7 +122,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn-primary">Accedi</button>
+                                <button type="submit" class="btn-primary" x-text="t('login')"></button>
                             </form>
 
                             <!-- REGISTRAZIONE -->
@@ -111,11 +130,11 @@
                                   hx-post="/register" hx-target="#form-response" hx-swap="innerHTML"
                                   class="auth-form">
                                 <div class="field">
-                                    <label for="reg-email">Email</label>
+                                    <label for="reg-email" x-text="t('email')"></label>
                                     <input type="email" id="reg-email" name="email" class="input-field" autocomplete="email" required>
                                 </div>
                                 <div class="field">
-                                    <label for="reg-password">Password</label>
+                                    <label for="reg-password" x-text="t('password')"></label>
                                     <div class="password-wrapper">
                                         <input :type="showRegPw ? 'text' : 'password'" id="reg-password" name="password"
                                                class="input-field" autocomplete="new-password" minlength="8"
@@ -128,7 +147,7 @@
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label for="reg-password-confirm">Conferma password</label>
+                                    <label for="reg-password-confirm" x-text="t('confirm_password')"></label>
                                     <div class="password-wrapper">
                                         <input :type="showRegPwConfirm ? 'text' : 'password'" id="reg-password-confirm" name="password_confirm"
                                                class="input-field" autocomplete="new-password" minlength="8"
@@ -140,7 +159,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn-primary">Registrati</button>
+                                <button type="submit" class="btn-primary" x-text="t('register')"></button>
                             </form>
 
                             <div id="form-response"></div>
@@ -148,8 +167,7 @@
                     </div>
                 </div>
                 <button type="button" class="btn-guest"
-                        hx-get="/desktop?guest=1" hx-target="#content-area" hx-swap="innerHTML">
-                    Continua come Guest
+                        hx-get="/desktop?guest=1" hx-target="#content-area" hx-swap="innerHTML" x-text="t('continue_guest')">
                 </button>
 
             </div>

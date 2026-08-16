@@ -6,7 +6,7 @@
         : 'left: ' + metric.px + 'px; top: ' + metric.py + 'px; width: 680px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, metric)">
-        <span>SISTEMA DIAGNOSTICO - METRIC AUDITOR</span>
+        <span x-text="t('diagnostic_system')"></span>
         <button class="close-btn" @click="metric.show = false" @mousedown.stop @touchstart.stop></button>
     </div>
     <div class="window-body" style="background: #09090d; padding: 0;" :style="isMobile ? 'height: calc(100% - 42px);' : ''">
@@ -14,8 +14,8 @@
             <table class="terminal-table">
                 <thead>
                     <tr>
-                        <th style="width: 42%;">METRICA DISPOSITIVO</th>
-                        <th>VALORE ESTRATTO</th>
+                        <th style="width: 42%;" x-text="t('device_metric')"></th>
+                        <th x-text="t('extracted_value')"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,18 +25,15 @@
                     </tr>
                     <tr><td class="t-lbl">[CANVAS_SIGNATURE]</td><td class="t-val" style="color: var(--accent-color); font-weight: bold;" x-text="metric.data.canvasHash"></td></tr>
                     
-                    <!-- SEZIONE SERVER-SIDE (REVERSE PROXY) -->
-                    <tr><td class="t-section" colspan="2">RILEVAMENTO PROXY SERVER-SIDE</td></tr>
+                    <tr><td class="t-section" colspan="2" x-text="t('proxy_detection')"></td></tr>
                     <tr><td class="t-lbl">SERVER_DETECTED_IP</td><td class="t-val" style="color: #ff9900;" x-text="metric.network.ip || 'Recupero in corso...'"></td></tr>
                     <tr><td class="t-lbl">SERVER_DETECTED_GEO</td><td class="t-val" x-text="metric.network.city ? `${metric.network.city}, ${metric.network.region} (${metric.network.country_code})` : 'n/a'"></td></tr>
                     
-                    <!-- SEZIONE CLIENT-SIDE (CONSENSO MULTI-SORGENTE) -->
-                    <tr><td class="t-section" colspan="2">RILEVAMENTO CONSENSO CLIENT-SIDE (5 CANALI)</td></tr>
+                    <tr><td class="t-section" colspan="2" x-text="t('client_detection')"></td></tr>
                     <tr><td class="t-lbl">CLIENT_RESOLVED_IP</td><td class="t-val" style="color: #00ffcc;" x-text="metric.data.clientIp || 'n/a'"></td></tr>
                     <tr><td class="t-lbl">CLIENT_RESOLVED_GEO</td><td class="t-val" style="color: #00ffcc;" x-text="metric.data.clientCity ? `${metric.data.clientCity}, ${metric.data.clientRegion} (${metric.data.clientCountry})` : 'n/a'"></td></tr>
 
-                    <!-- INFO HARDWARE E BROWSER -->
-                    <tr><td class="t-section" colspan="2">SPECIFICHE DISPOSITIVO</td></tr>
+                    <tr><td class="t-section" colspan="2" x-text="t('device_specs')"></td></tr>
                     <tr><td class="t-lbl">OS_PLATFORM</td><td class="t-val" x-text="metric.data.os + ' (' + metric.data.platform + ')'"></td></tr>
                     <tr><td class="t-lbl">GPU_VENDOR</td><td class="t-val" x-text="metric.data.gpuVendor"></td></tr>
                     <tr><td class="t-lbl">GPU_RENDERER</td><td class="t-val" x-text="metric.data.gpuRenderer"></td></tr>

@@ -6,7 +6,7 @@
         : 'position: absolute; left: ' + editor.px + 'px; top: ' + editor.py + 'px; width: 680px; height: 440px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, editor)">
-        <span x-text="'Editor - ' + (editor.targetFile ? editor.targetFile.name : '')"></span>
+        <span x-text="t('editor_title') + ' - ' + (editor.targetFile ? editor.targetFile.name : '')"></span>
         <button class="close-btn" @click="editor.show = false" @mousedown.stop @touchstart.stop></button>
     </div>
     <div class="window-body" 
@@ -19,11 +19,11 @@
             <button class="btn-access" 
                     x-show="!isGuest && (editor.targetFile && editor.targetFile.id !== 'readme')" 
                     @click="saveFile()" 
-                    style="font-size: 0.9rem; padding: 6px 15px; border-radius: 6px; box-shadow: none;">Salva Modifiche</button>
+                    style="font-size: 0.9rem; padding: 6px 15px; border-radius: 6px; box-shadow: none;" x-text="t('save_changes')"></button>
             
             <div x-show="isGuest || (editor.targetFile && editor.targetFile.id === 'readme')" 
                  style="font-size: 0.85rem; color: #ff5f56; font-family: sans-serif; display: flex; align-items: center; gap: 6px;">
-                <span x-text="editor.targetFile && editor.targetFile.id === 'readme' ? 'Documento di sistema protetto in sola lettura' : 'Modalità sola lettura (Accedi per salvare le modifiche)'"></span>
+                <span x-text="editor.targetFile && editor.targetFile.id === 'readme' ? t('read_only_sys') : t('read_only_guest')"></span>
             </div>
         </div>
     </div>

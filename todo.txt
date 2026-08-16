@@ -10,11 +10,8 @@ FOR LATER:
 - CV app                                                                      [ ]
 - help fa vedere lista comandi senza descrizioni, scrivere una cosa tipo:
   help <argument> to display command description                              [ ]
-- quando clicchi sulla nuvola mid talk scoppia e scompare prematuramente      [x]
 - integrare cowsay con il comando clippysay da terminale attiva clippytalk    [ ] 
-- clippy say new context: mobile, quando sul desktop anziche dire tasto destro
-  del mouse dice longpress. da mobile istruzioni come longpress to open menu  [x]
-- quando il menu context è attivo clippy non deve essere cliccabile           [x]
+- pinball skin levette                                                        [ ]
 - migliora colori blocco codice in viewer readme                              [ ] 
 - con il terminale showcase librerie e progetti c e cpp ---> wasm             [ ]
 - modifica parametri fingerprint                                              [ ]

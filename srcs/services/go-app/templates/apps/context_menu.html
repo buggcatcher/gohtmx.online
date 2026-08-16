@@ -6,32 +6,30 @@
     
     <template x-if="!contextMenu.targetFile">
         <div>
-            <button @click="openCreator()">Crea File</button>
-            <button @click="openTerminal()">Apri Terminale</button>
+            <button @click="openCreator()" x-text="t('create_file')"></button>
+            <button @click="openTerminal()" x-text="t('open_terminal')"></button>
         </div>
     </template>
 
     <template x-if="contextMenu.targetFile && contextMenu.targetFile.category === 'system'">
         <div>
-            <button @click="openFile(contextMenu.targetFile)">Esegui</button>
-            <button @click="inspectFile(contextMenu.targetFile)">Proprietà (Ispeziona)</button>
+            <button @click="openFile(contextMenu.targetFile)" x-text="t('execute')"></button>
+            <button @click="inspectFile(contextMenu.targetFile)" x-text="t('inspect')"></button>
         </div>
     </template>
     
     <template x-if="contextMenu.targetFile && contextMenu.targetFile.category === 'document'">
         <div>
-            <button @click="viewFile(contextMenu.targetFile)">Visualizza</button>
+            <button @click="viewFile(contextMenu.targetFile)" x-text="t('view')"></button>
             
-            <!-- Mostra 'Modifica' solo se non si tratta del README statico di sistema -->
             <template x-if="contextMenu.targetFile.id !== 'readme'">
-                <button @click="editFile(contextMenu.targetFile)">Modifica</button>
+                <button @click="editFile(contextMenu.targetFile)" x-text="t('edit')"></button>
             </template>
             
-            <button @click="inspectFile(contextMenu.targetFile)">Proprietà (Ispeziona)</button>
+            <button @click="inspectFile(contextMenu.targetFile)" x-text="t('inspect')"></button>
             
-            <!-- Mostra 'Elimina' solo se non si tratta del README statico di sistema -->
             <template x-if="contextMenu.targetFile.id !== 'readme'">
-                <button @click="deleteFile(contextMenu.targetFile)" style="color: #ff5f56;">Elimina</button>
+                <button @click="deleteFile(contextMenu.targetFile)" style="color: #ff5f56;" x-text="t('delete')"></button>
             </template>
         </div>
     </template>

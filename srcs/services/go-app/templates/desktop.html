@@ -1,5 +1,5 @@
 <div class="desktop-workspace" 
-     x-data="desktopManager('{{.Username}}', {{.IsGuest}})"
+     x-data="desktopManager('{{.Username}}', {{.IsGuest}}, '{{.Lang}}')"
      @contextmenu.prevent="showContextMenu($event, null)"
      @touchstart="handleTouchStart($event, null)"
      @touchend="handleTouchEnd()"
@@ -14,22 +14,34 @@
         
         <!-- Menu Utente Minimale -->
         <div class="dropdown-container" x-data="{ openMenu: false }">
-            <span class="nav-user" @click="openMenu = !openMenu" x-text="isGuest ? 'Guest ▼' : ('Utente: ' + currentUser + ' ▼')"></span>
+            <span class="nav-user" @click="openMenu = !openMenu" x-text="isGuest ? (t('guest_session') + ' ▼') : (t('user_session') + ': ' + currentUser + ' ▼')"></span>
             <div class="dropdown-menu" x-show="openMenu" @click.away="openMenu = false" style="display: none; width: 280px;">
-                <div class="dropdown-header" x-text="isGuest ? '📟 SESSIONE GUEST' : '📟 SESSIONE UTENTE'"></div>
+                <div class="dropdown-header" x-text="isGuest ? t('guest_session') : t('user_session')"></div>
+                
+                <!-- Horizontal Language Switcher inside Dropdown -->
+                <div style="display: flex; gap: 8px; justify-content: center; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.15);">
+                    <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'uk', 'cn', 'jp']">
+                        <button type="button" 
+                                @click="changeLanguage(langId)" 
+                                style="background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 4px; transition: transform 0.2s; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"
+                                :style="activeLang === langId ? 'transform: scale(1.3); outline: 1px solid var(--accent-color); border-radius: 4px;' : 'opacity: 0.5;'"
+                                :title="langId.toUpperCase()">
+                            <span x-text="translationDictionary[langId].flagSymbol"></span>
+                        </button>
+                    </template>
+                </div>
+
                 <div style="padding: 12px; font-family: monospace; font-size: 0.8rem; line-height: 1.6;">
-                    <p style="margin: 0 0 6px 0;"><span style="color: #00ffcc;">IP ATTIVO:</span> <span x-text="userIP"></span></p>
-                    <p style="margin: 0 0 12px 0;"><span style="color: #00ffcc;">SESSIONE:</span> <span x-text="formatSessionTime()"></span></p>
+                    <p style="margin: 0 0 6px 0;"><span style="color: #00ffcc;" x-text="t('active_ip')"></span> <span x-text="userIP"></span></p>
+                    <p style="margin: 0 0 12px 0;"><span style="color: #00ffcc;" x-text="t('session_time')"></span> <span x-text="formatSessionTime()"></span></p>
                     
                     <div style="border-top: 1px dashed rgba(255, 255, 255, 0.15); padding-top: 12px; display: flex; justify-content: center;">
                         <template x-if="isGuest">
-                            <a href="/" class="btn-primary" style="display: block; text-align: center; text-decoration: none; width: 100%; padding: 8px 12px; font-size: 0.85rem; box-sizing: border-box;">
-                                Accedi / Iscriviti
+                            <a href="/" class="btn-primary" style="display: block; text-align: center; text-decoration: none; width: 100%; padding: 8px 12px; font-size: 0.85rem; box-sizing: border-box;" x-text="t('login') + ' / ' + t('register')">
                             </a>
                         </template>
                         <template x-if="!isGuest">
-                            <a href="/logout" class="btn-primary" style="display: block; text-align: center; text-decoration: none; width: 100%; padding: 8px 12px; font-size: 0.85rem; box-sizing: border-box; background-color: #ff5f56; color: white; box-shadow: 0 0 10px rgba(255, 95, 86, 0.4);">
-                                Esci (Logout)
+                            <a href="/logout" class="btn-primary" style="display: block; text-align: center; text-decoration: none; width: 100%; padding: 8px 12px; font-size: 0.85rem; box-sizing: border-box; background-color: #ff5f56; color: white; box-shadow: 0 0 10px rgba(255, 95, 86, 0.4);" x-text="t('logout')">
                             </a>
                         </template>
                     </div>
