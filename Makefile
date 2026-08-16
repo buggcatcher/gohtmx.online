@@ -20,7 +20,7 @@ BLUE   = \033[0;34m
 CYAN   = \033[0;36m
 RESET  = \033[0m
 
-.PHONY: all data-init hosts up down restart clean fclean re backup check-env logs
+.PHONY: all data-init hosts up down restart clean fclean re backup check-env logs update
 
 # .env.example non esiste più è da togliere.
 check-env:
@@ -142,3 +142,6 @@ backup:
 	printf "$(CYAN)Backup di $(DATA_PATH) -> $$DEST$(RESET)\n"; \
 	sudo tar -czf "$$DEST" -C "$(DATA_PATH)" .; \
 	printf "$(GREEN)Backup completato: $$DEST$(RESET)\n"
+
+update: data-init
+	@docker compose -p $(NAME) --project-directory srcs -f srcs/docker-compose.yml up -d --build go-app
