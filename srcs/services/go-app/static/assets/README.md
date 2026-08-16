@@ -1,31 +1,30 @@
 # Solar City: uno spazio di collaborazione digitale
 
-Benvenuto in **Solar City**, un ambiente desktop virtuale e interattivo progettato come spazio digitale volto alla collaborazione, alla condivisione di risorse e alla diagnostica di rete in tempo reale. 
+Benvenuto in **Solar City**, qua si possono condividere file.
+Quali? Solamente `*.md` e `*.txt` per ora. Se vi facessi caricare `*.pdf` mi buchereste in 0,2 secondi.
 
-Questo file serve per mostrare le caratteristiche sintattiche del parser markdown che viene usato per i file `*.md`.
+Questo file serve solo per mostrare le caratteristiche sintattiche markdown che si possono utilizzare qui.
 
 Puoi aggiungere immagini e gif con la sintassi `![testo](link)`
 ![Solar City Workspace](https://i.giphy.com/3o7abFpd91G18NYtpe.webp)
 
 ---
 
-## 👥 Regolamento e Modalità d'Uso
+## Modalità d'Uso
 
-### 1. Limiti della Modalità Guest (Sola Lettura)
+### 1. Limiti della Modalità Guest
 > [!IMPORTANT]
 > Se hai effettuato l'accesso come **Guest**, hai i permessi di sola lettura. Puoi esplorare il desktop, visualizzare i documenti e utilizzare il terminale, ma non puoi creare, modificare o eliminare file sul database persistente.
 
 *   **Sblocco Scrittura**: Registrati con una mail valida e clicca sul link di conferma per attivare il tuo account e sbloccare le piene funzionalità di scrittura collegate a PostgreSQL.
 
-### 2. Trascinamento Documenti (Drag & Drop)
+### 2. Drag & Drop
 *   Puoi trascinare file `.txt` o `.md` dal tuo sistema operativo reale direttamente sullo sfondo del desktop per caricarli istantaneamente.
 *   **Limite di Sicurezza**: La dimensione massima consentita per singolo caricamento è di **42 KB** [^1].
 
 ---
 
-## 📟 Showcase delle Funzionalità del Parser Markdown
-
-Il nostro motore di rendering supporta lo standard GFM (GitHub Flavored Markdown) insieme ad estensioni matematiche, note a piè di pagina e blocchi speciali di avviso.
+## 📟 Funzionalità del Parser Markdown
 
 ### Il Syntax Highlight per i blocchi di codice E ancora da fare
 
@@ -43,14 +42,14 @@ console.log("Telemetry initialized:", clientMetrics);
 
 Puoi combinare diversi stili per enfatizzare i concetti:
 *   Testo in **grassetto** (`**grassetto**`) e in *corsivo* (`*corsivo*`).
-*   Testo ***grassetto e corsivo*** per un'enfasi maggiore.
-*   Testo ~~barrato~~ per indicare modifiche o eliminazioni.
+*   Testo ***grassetto e corsivo*** con un (`***TRIPLO PUNTATORE***`) per un'enfasi maggiore.
+*   Testo ~~barrato~~ (`~~così~~`)per indicare modifiche o eliminazioni.
 *   Codice inline: `const api = "/api/files";` per evidenziare variabili o funzioni.
 *   Scorciatoie Emoji integrate: :rocket: (avvio immediato), :warning: (avvisi importanti), :bulb: (suggerimenti), :lock: (sicurezza delle sessioni), :robot: (agente Clippy).
 
 ---
 
-### Blocchi di Avviso (GitHub Alerts)
+### Blocchi di Avviso
 
 Sfrutta i blocchi di citazione speciali per richiamare l'attenzione del lettore su punti chiave:
 
@@ -64,11 +63,11 @@ Sfrutta i blocchi di citazione speciali per richiamare l'attenzione del lettore 
 
 ### Tabelle GFM con Allineamento
 
-| Funzionalità | Stato Sviluppo | Priorità | Allineamento |
+| Funzionalità | Stato Sviluppo | Allineamento |
 | :--- | :---: | ---: | :--- |
-| File System Remoto | Completato | Alta | Sinistra |
-| Crittografia Sessioni | Attivo | Critica | Centro |
-| Sintesi Vocale TTS | Attivo | Media | Destra |
+| File System Remoto | Completato | Sinistra |
+| Crittografia Sessioni | Attivo | Centro |
+| Sintesi Vocale TTS | Attivo | Destra |
 
 ---
 
@@ -91,5 +90,6 @@ Sfrutta i blocchi di citazione speciali per richiamare l'attenzione del lettore 
 
 [echo-framework]: https://echo.labstack.com "Framework Web per Go"
 [htmx-lib]: https://htmx.org "Libreria HTMX"
+[autore]: https://github.com/buggcatcher "Github dell'autore"
 
-[^1]: Questo limite è calcolato per prevenire l'esaurimento della memoria allocata ai buffer del server Go (`http.MaxBytesReader`).
+[^1]: Questo limite è calcolato per prevenire l'esaurimento della memoria allocata ai buffer del server.

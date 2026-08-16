@@ -1,5 +1,10 @@
+/**
+ * Clippy Quotes Manager
+ * Gestisce la riproduzione casuale di citazioni e battute in base al contesto,
+ * alla lingua selezionata, e allo stato di login dell'utente (Guest vs Autenticato).
+ */
 const ClippyQuotesManager = {
-    // 1. Struttura dati con metadati condizionali: guestOnly o userOnly
+    // Definizione dei set di frasi divisi per Lingua e per Contesto (Flag)
     quoteSets: {
         it: {
             index: [
@@ -9,17 +14,21 @@ const ClippyQuotesManager = {
             ],
             desktop_empty: [
                 "Perché non crei un file facendo click con il tasto destro?",
-                "Ci sono 10 tipi di persone al mondo: chi capisce il binario e chi no.",
-                "Nessun programmatore è stato maltrattato per la scrittura di questo codice.",
+                "Ci sono 10 tipi di persone, chi capisce il binario e chi no.",
+                "Nessun programmatore è stato maltrattato durante la scrittura di questo codice.",
                 "Sei felice?",
-                "Per anni ho coltivato patate, solo ora comprendo che in realtà sono state loro a coltivare me.",
+                "Per anni ho coltivato patate, ma la dura verità è che loro hanno coltivato me.",
                 "Questo sfondo l'ho scelto personalmente per te.",
                 "Trascina un file .txt o .md dal tuo computer per caricarlo al volo!"
             ],
             desktop_empty_mobile: [
-                "Tieni premuto a lungo (long press) sullo sfondo per aprire il menu e creare un file!",
+                "Tieni premuto a lungo sullo sfondo per aprire il menu e creare un file!",
                 "Puoi interagire con le icone tenendo premuto a lungo sullo schermo.",
-                { text: "Se effettui l'accesso, potrai salvare i tuoi documenti sul database Postgres remoto.", guestOnly: true }
+                { text: "Se effettui l'accesso, potrai salvare i tuoi documenti sul database Postgres remoto.", guestOnly: true },
+                "Sei felice?",
+                "Per anni ho coltivato patate, ma la dura verità è che loro hanno coltivato me.",
+                "Ci sono 10 tipi di persone, chi capisce il binario e chi no.",
+                "Nessun programmatore è stato maltrattato durante la scrittura di questo codice."
             ],
             terminal: [
                 "Ah, vedo che sei un tipo da riga di comando! Prova a digitare 'neofetch'.",
@@ -51,17 +60,21 @@ const ClippyQuotesManager = {
             ],
             desktop_empty: [
                 "Zašto ne stvoriš datoteku desnim klikom?",
-                "Postoji 10 vrsta ljudi na svijetu: oni koji razumiju binarni sustav i oni koji ne.",
-                "Nijedan programer nije ozlijeđen tijekom pisanja ovog koda.",
+                "Postoji 10 vrsta ljudi, oni koji razumiju binarni sustav i oni koji ne.",
+                "Nijedan programer nije zlostavljan tijekom pisanja ovog koda.",
                 "Jesi li sretan/sretna?",
-                "Godinama sam uzgajao krumpir, tek sada shvaćam da su zapravo oni uzgajali mene.",
+                "Godinama sam uzgajao krumpir, ali surova je istina da su zapravo oni uzgajali mene.",
                 "Ovu pozadinu sam osobno odabrao za tebe.",
                 "Povuci .txt ili .md datoteku sa svog računala da je odmah učitaš!"
             ],
             desktop_empty_mobile: [
                 "Dugo pritisni pozadinu da otvoriš izbornik i stvoriš datoteku!",
                 "Možeš komunicirati s ikonama dugim pritiskom na zaslon.",
-                { text: "Ako se prijaviš, moći ćeš spremiti dokumente u udaljenu Postgres bazu podataka.", guestOnly: true }
+                { text: "Ako se prijaviš, moći ćeš spremiti dokumente u udaljenu Postgres bazu podataka.", guestOnly: true },
+                "Jesi li sretan/sretna?",
+                "Godinama sam uzgajao krumpir, ali surova je istina da su zapravo oni uzgajali mene.",
+                "Postoji 10 vrsta ljudi, oni koji razumiju binarni sustav i oni koji ne.",
+                "Nijedan programer nije zlostavljan tijekom pisanja ovog koda."
             ],
             terminal: [
                 "Ah, vidim da voliš naredbeni redak! Pokušaj upisati 'neofetch'.",
@@ -93,17 +106,21 @@ const ClippyQuotesManager = {
             ],
             desktop_empty: [
                 "Pourquoi ne pas créer un fichier avec un clic droit ?",
-                "Il y a 10 types de personnes dans le monde : celles qui comprennent le binaire, et les autres.",
-                "Aucun développeur n'a été maltraité pour écrire ce code.",
+                "Il y a 10 types de personnes, celles qui comprennent le binaire et celles qui ne le comprennent pas.",
+                "Aucun développeur n'a été maltraité durant l'écriture de ce code.",
                 "Es-tu heureux ?",
-                "Pendant des années, j'ai cultivé des pommes de terre, et maintenant je réalise que c'étaient elles qui me cultivaient.",
+                "Pendant des années, j'ai cultivé des pommes de terre, mais la dure vérité est que ce sont elles qui me cultivaient.",
                 "J'ai personnellement choisi ce fond d'écran pour toi.",
                 "Glissez-déposez un fichier .txt ou .md pour le charger instantanément !"
             ],
             desktop_empty_mobile: [
                 "Faites un appui long sur l'arrière-plan pour ouvrir le menu !",
                 "Vous pouvez interagir avec les icônes par un appui long sur l'écran.",
-                { text: "Si tu te connectes, tu pourras sauvegarder tes fichiers dans la base Postgres.", guestOnly: true }
+                { text: "Si tu te connectes, tu pourras sauvegarder tes fichiers dans la base Postgres.", guestOnly: true },
+                "Es-tu heureux ?",
+                "Pendant des années, j'ai cultivé des pommes de terre, mais la dure vérité est que ce sont elles qui me cultivaient.",
+                "Il y a 10 types de personnes, celles qui comprennent le binaire et celles qui ne le comprennent pas.",
+                "Aucun développeur n'a été maltraité durant l'écriture de ce code."
             ],
             terminal: [
                 "Ah, un adepte de la ligne de commande ! Essaie de taper 'neofetch'.",
@@ -135,17 +152,21 @@ const ClippyQuotesManager = {
             ],
             desktop_empty: [
                 "¿Por qué no creas un archivo haciendo clic derecho?",
-                "Hay 10 tipos de personas en el mundo: los que entienden binario y los que no.",
-                "Ningún programador fue maltratado al escribir este código.",
+                "Hay 10 tipos de personas, los que entienden binario y los que no.",
+                "Ningún programador fue maltratado durante la escritura de este código.",
                 "¿Eres feliz?",
-                "Durante años cultivé patatas, solo ahora comprendo que en realidad ellas me cultivaban a mí.",
+                "Durante años cultivé patatas, pero la dura verdad es que ellas me cultivaban a mí.",
                 "Elegí personalmente este fondo de pantalla para ti.",
                 "¡Arrastra un archivo .txt o .md desde tu ordenador para subirlo al instante!"
             ],
             desktop_empty_mobile: [
                 "¡Mantén presionado el fondo para abrir el menú y crear un archivo!",
                 "Puedes interactuar con los iconos manteniendo presionado en la pantalla.",
-                { text: "Si inicias sesión, podrás guardar tus documentos en la base de datos remota Postgres.", guestOnly: true }
+                { text: "Si inicias sesión, podrás guardar tus documentos en la base de datos remota Postgres.", guestOnly: true },
+                "¿Eres feliz?",
+                "Durante años cultivé patatas, pero la dura verdad es que ellas me cultivaban a mí.",
+                "Hay 10 tipos de personas, los que entienden binario y los que no.",
+                "Ningún programador fue maltratado durante la escritura de este código."
             ],
             terminal: [
                 "¡Ah, veo que eres un usuario de la línea de comandos! Intenta escribir 'neofetch'.",
@@ -177,17 +198,21 @@ const ClippyQuotesManager = {
             ],
             desktop_empty: [
                 "Warum erstellst du nicht eine Datei mit einem Rechtsklick?",
-                "Es gibt 10 Arten von Menschen auf der Welt: diejenigen, die Binärdateien verstehen, und diejenigen, die es nicht tun.",
+                "Es gibt 10 Arten von Menschen, diejenigen, die Binärcode verstehen, und diejenigen, die es nicht tun.",
                 "Beim Schreiben dieses Codes wurden keine Programmierer verletzt.",
                 "Bist du glücklich?",
-                "Jahrelang habe ich Kartoffeln angebaut, erst jetzt verstehe ich, dass eigentlich sie mich angebaut haben.",
+                "Jahrelang habe ich Kartoffeln angebaut, aber die harte Wahrheit ist, dass sie mich angebaut haben.",
                 "Diesen Hintergrund habe ich persönlich für dich ausgewählt.",
                 "Ziehe eine .txt- oder .md-Datei von deinem Computer hierher, um sie sofort hochzuladen!"
             ],
             desktop_empty_mobile: [
                 "Halte den Hintergrund gedrückt, um das Menü zu öffnen und eine Datei zu erstellen!",
                 "Du kannst mit Symbolen interagieren, indem du sie auf dem Bildschirm gedrückt hältst.",
-                { text: "Wenn du dich anmeldest, kannst du deine Dokumente in der Postgres-Datenbank speichern.", guestOnly: true }
+                { text: "Wenn du dich anmeldest, kannst du deine Dokumente in der Postgres-Datenbank speichern.", guestOnly: true },
+                "Bist du glücklich?",
+                "Jahrelang habe ich Kartoffeln angebaut, aber die harte Wahrheit ist, dass sie mich angebaut haben.",
+                "Es gibt 10 Arten von Menschen, diejenigen, die Binärcode verstehen, und diejenigen, die es nicht tun.",
+                "Beim Schreiben dieses Codes wurden keine Programmierer verletzt."
             ],
             terminal: [
                 "Ah, ich sehe, du bist ein Befehlszeilen-Fan! Versuche 'neofetch' einzugeben.",
@@ -219,17 +244,21 @@ const ClippyQuotesManager = {
             ],
             desktop_empty: [
                 "Why don't you create a file by right-clicking?",
-                "There are 10 types of people in the world: those who understand binary, and those who don't.",
-                "No programmers were harmed in the writing of this code.",
+                "There are 10 types of people, those who understand binary and those who don't.",
+                "No programmers were harmed during the writing of this code.",
                 "Are you happy?",
-                "For years I grew potatoes, only now do I realize that they were actually growing me.",
+                "For years I grew potatoes, but the hard truth is that they were actually growing me.",
                 "I personally chose this wallpaper for you.",
                 "Drag and drop a .txt or .md file from your computer to upload it instantly!"
             ],
             desktop_empty_mobile: [
                 "Long press on the background to open the menu and create a file!",
                 "You can interact with icons by performing a long press on the screen.",
-                { text: "If you log in, you can save your documents to the remote Postgres database.", guestOnly: true }
+                { text: "If you log in, you can save your documents to the remote Postgres database.", guestOnly: true },
+                "Are you happy?",
+                "For years I grew potatoes, but the hard truth is that they were actually growing me.",
+                "There are 10 types of people, those who understand binary and those who don't.",
+                "No programmers were harmed during the writing of this code."
             ],
             terminal: [
                 "Ah, I see you are a command line user! Try typing 'neofetch'.",
@@ -253,46 +282,29 @@ const ClippyQuotesManager = {
                 "Reading documentation... is a great habit!"
             ]
         },
-        cn: [
-            // Cinese, mantenuto come blocco integro standardizzato
-        ],
-        jp: [
-            // Giapponese, mantenuto come blocco integro standardizzato
-        ]
-    },
-
-    // 2. Registro memoria basato sulle stringhe effettive per evitare collisioni indici
-    usedQuotes: {
-        index: [],
-        desktop_empty: [],
-        desktop_empty_mobile: [],
-        terminal: [],
-        metric: [],
-        editor: [],
-        viewer: []
-    },
-
-    init() {
-        // Ripristino delle traduzioni di riempimento per Cinese e Giapponese simmetriche
-        this.quoteSets.cn = {
+        cn: {
             index: [
                 "你试过关机再开机吗？",
                 "不，123 绝对不是一个安全的密码。",
-                "服务器端口已受到安全 SSL 证书的保护！"
+                "服务器端口已受到安全 SSL 证书 of 保护！"
             ],
             desktop_empty: [
                 "为什么不通过右键单击来创建文件呢？",
                 "世界上有 10 种人：懂二进制的和不懂的。",
                 "在编写此代码的过程中，没有程序员受到伤害。",
                 "你开心吗？",
-                "多年来我一直在种土豆，直到现在我才明白，实际上是它们在培养我。",
+                "多年来我一直在种土豆，但残酷的事实是，实际上是它们在培养我。",
                 "这是我亲自为你选择的壁纸。",
                 "从电脑中拖放 .txt 或 .md 文件即可立即上传！"
             ],
             desktop_empty_mobile: [
                 "长按背景以打开菜单并创建文件！",
                 "你可以通过长按屏幕上的图标来进行交互。",
-                { text: "如果您登录，则可以将文档保存到远程 Postgres 数据库中。", guestOnly: true }
+                { text: "如果您登录，则可以将文档保存到远程 Postgres 数据库中。", guestOnly: true },
+                "你开心吗？",
+                "多年来我一直在种土豆，但残酷的事实是，实际上是它们在培养我。",
+                "世界上有 10 种人：懂二进制的和不懂的。",
+                "在编写此代码的过程中，没有程序员受到伤害。"
             ],
             terminal: [
                 "啊，我看得出你是命令行用户！试着输入 'neofetch' 吧。",
@@ -315,9 +327,8 @@ const ClippyQuotesManager = {
                 "这是 .md 文件的格式化结构。",
                 "阅读文档... 是一个极好的习惯！"
             ]
-        };
-
-        this.quoteSets.jp = {
+        },
+        jp: {
             index: [
                 "再起動は試しましたか？",
                 "いいえ、123は良いパスワードではありません。",
@@ -326,16 +337,20 @@ const ClippyQuotesManager = {
             desktop_empty: [
                 "右クリックしてファイルを作成してみませんか？",
                 "世界には10種類の人間がいます。バイナリを理解する人と理解しない人です。",
-                "このコード of 開発中に、プログラマーは一人も傷ついていません。",
+                "このコードの作成中に、プログラマーは一人も傷ついていません。",
                 "幸せですか？",
-                "何年もジャガイモを育ててきましたが、今になって、実は彼らが私を育てていたのだと気づきました。",
+                "何年もジャガイモを育ててきましたが、残酷な真実は、彼らが私を育てていたのだということです。",
                 "この壁紙は私があなたのために個人的に選びました。",
                 "コンピューターから.txtまたは.mdファイルをドラッグ＆ドロップして、すぐにアップロードできます！"
             ],
             desktop_empty_mobile: [
                 "背景を長押ししてメニューを開き、ファイルを作成しましょう！",
                 "画面上のアイコンを長押しすることで操作できます。",
-                { text: "ログインすると、リモートのPostgresデータベースにドキュメントを保存できます。", guestOnly: true }
+                { text: "ログインすると、リモートのPostgresデータベースにドキュメントを保存できます。", guestOnly: true },
+                "幸せですか？",
+                "何年もジャガイモを育ててきましたが、残酷な真実は、彼らが私を育てていたのだということです。",
+                "世界には10種類の人間がいます。バイナリを理解する人と理解しない人です。",
+                "このコードの作成中に、プログラマーは一人も傷ついていません。"
             ],
             terminal: [
                 "おや、コマンドライン使いですね！「neofetch」と入力してみてください。",
@@ -358,8 +373,21 @@ const ClippyQuotesManager = {
                 "これが.mdファイルの整形された構造です。",
                 "ドキュメントを読むこと... それは素晴らしい習慣です！"
             ]
-        };
+        }
+    },
 
+    // Registro memoria basato sulle stringhe riprodotte per prevenire collisioni logiche
+    usedQuotes: {
+        index: [],
+        desktop_empty: [],
+        desktop_empty_mobile: [],
+        terminal: [],
+        metric: [],
+        editor: [],
+        viewer: []
+    },
+
+    init() {
         const target = document.getElementById('clippy-hitbox') || document.getElementById('clippy-container');
         if (!target) return;
 
@@ -368,6 +396,7 @@ const ClippyQuotesManager = {
         });
     },
 
+    // Rileva dinamicamente la lingua attiva dal framework o dai cookie
     getActiveLang() {
         try {
             const desktopEl = document.querySelector('.desktop-workspace');
@@ -384,9 +413,10 @@ const ClippyQuotesManager = {
         } catch (e) {
             console.warn("[ClippyQuotes] Errore rilevamento lingua:", e);
         }
-        return 'it';
+        return 'it'; // Fallback di base
     },
 
+    // Rileva il contesto attuale di visualizzazione delle finestre sul desktop
     getContext() {
         const desktopEl = document.querySelector('.desktop-workspace');
         if (!desktopEl) {
@@ -429,6 +459,7 @@ const ClippyQuotesManager = {
         return isMobile ? 'desktop_empty_mobile' : 'desktop_empty';
     },
 
+    // Sceglie e riproduce una citazione randomica ad esclusione basata sul contesto e sui vincoli utente
     speakRandomQuote() {
         const context = this.getContext();
         const isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
@@ -458,11 +489,10 @@ const ClippyQuotesManager = {
         }
 
         const lang = this.getActiveLang();
-        // Fallback progressivo da 'en' (ex 'uk') a 'it'
         let langSet = this.quoteSets[lang] || this.quoteSets['en'] || this.quoteSets['it'];
         const currentSet = langSet[context] || langSet['desktop_empty'];
 
-        // Filtro delle frasi in tempo reale basato sullo stato di login (isGuest)
+        // Filtra le frasi ammesse basandosi sullo stato di login attuale
         const filteredSet = currentSet.filter(item => {
             if (typeof item === 'object' && item !== null) {
                 if (item.guestOnly && !isGuest) return false;
@@ -478,7 +508,7 @@ const ClippyQuotesManager = {
             this.usedQuotes[context] = [];
         }
 
-        // Filtra gli elementi non ancora riprodotti in questo ciclo
+        // Seleziona unicamente frasi non utilizzate nel ciclo attuale
         const availableItems = filteredSet.filter(item => {
             const txt = typeof item === 'object' ? item.text : item;
             return !this.usedQuotes[context].includes(txt);
@@ -486,7 +516,7 @@ const ClippyQuotesManager = {
 
         let chosenItem;
         if (availableItems.length === 0) {
-            // Reset del ciclo di esclusione per questo contesto
+            // Reset del ciclo di riproduzione se esaurite
             this.usedQuotes[context] = [];
             chosenItem = filteredSet[Math.floor(Math.random() * filteredSet.length)];
         } else {
