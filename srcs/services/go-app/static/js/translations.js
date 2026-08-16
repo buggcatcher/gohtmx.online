@@ -1,6 +1,6 @@
 /**
  * Translation Dictionary for Solar City
- * Order mapping constraint: it -> hr -> fr -> es -> de -> uk -> cn -> jp
+ * Order mapping constraint: it -> hr -> fr -> es -> de -> en -> cn -> jp
  */
 const translationDictionary = {
     it: {
@@ -108,7 +108,7 @@ const translationDictionary = {
             // Nuove stringhe Clippy
             verified_welcome: "Jesi li to stvarno ti, {user}? Sada se možeš prijaviti!",
             register_success: "Skoro gotovo, {user}! Poslao sam ti e-poštu za potvrdu. Klikni na poveznicu za aktivaciju računa i prijavu.",
-            err_file_ext: "Upozorenje! Naziv datoteke mora završavati ekstenzijom .txt ili .md.",
+            err_file_ext: "Upozorenje! Naziv datoteke must završavati ekstenzijom .txt ili .md.",
             guest_read_only_file: "Stvorena je nova lokalna datoteka samo za čitanje. Prijavi se za spremanje u trajnu bazu podataka!",
             file_created_db: "Odlično! Tvoja nova datoteka registrirana je u Postgres bazi podataka.",
             err_create_prefix: "Greška pri stvaranju: ",
@@ -229,12 +229,12 @@ const translationDictionary = {
             verified_welcome: "¿Realmente eres tú {user}? ¡Ahora puedes iniciar sesión!",
             register_success: "¡Casi listo, {user}! Te he enviado un correo de confirmación. Haz clic en el enlace para activar tu cuenta e iniciar sesión.",
             err_file_ext: "¡Atención! El nombre del archivo debe terminar obligatoriamente con la extensión .txt o .md.",
-            guest_read_only_file: "Nuevo archivo local de solo lectura creado. ¡Inicia sesión para guardar en la base de datos persistente!",
+            guest_read_only_file: "Nuevo archivo local de solo lectura creado. ¡Inicia sesión para guardar en la base de datos de Postgres!",
             file_created_db: "¡Excelente! Tu nuevo archivo ha sido registrado en la base de datos Postgres.",
             err_create_prefix: "Error de creación: ",
             file_saved_db: "Archivo guardado con éxito en la base de datos remota.",
             err_save_db: "¡Ops! Ocurrió un error al escribir el archivo en Postgres.",
-            file_removed_local: "Archivo temporal eliminado del espacio de trabajo local.",
+            file_removed_local: "Archivo temporal de trabajo eliminado.",
             file_removed_db: "No hay cielo ni infierno para los archivos eliminados.",
             err_remove_db: "No se pudo completar la eliminación del archivo.",
             err_drag_guest: "Atención: primero debes iniciar sesión para subir archivos a la nube mediante arrastrar y soltar.",
@@ -289,7 +289,7 @@ const translationDictionary = {
             verified_welcome: "Bist du das wirklich, {user}? Jetzt kannst du dich anmelden!",
             register_success: "Fast fertig, {user}! Ich habe dir eine Bestätigungs-E-Mail gesendet. Klicke auf den Link, um dein Konto zu aktivieren und dich anzumelden.",
             err_file_ext: "Achtung! Der Dateiname muss zwingend mit der Endung .txt oder .md enden.",
-            guest_read_only_file: "Neue lokale schreibgeschützte Datei erstellt. Melde dich an, um in der persistenten Datenbank zu speichern!",
+            guest_read_only_file: "Neue lokale schreibgeschützte Datei erstellt. Melde dich an, um in der Postgres-Datenbank zu speichern!",
             file_created_db: "Großartig! Deine neue Datei wurde in der Postgres-Datenbank registriert.",
             err_create_prefix: "Fehler beim Erstellen: ",
             file_saved_db: "Datei erfolgreich in der Remote-Datenbank gespeichert.",
@@ -303,7 +303,7 @@ const translationDictionary = {
             err_upload_prefix: "Upload-Fehler: "
         }
     },
-    uk: {
+    en: {
         ttsCode: "en-GB", // Standard UK phonetic engine
         flagSymbol: "🇬🇧",
         strings: {

@@ -53,29 +53,20 @@ const initDesktop = () => {
         viewer: { show: false, targetFile: null, px: 220, py: 100 },
         terminal: { show: false, input: '', history: [], px: 100, py: 80 },
 
-        /**
-         * Estrae l'username da un email o identity
-         */
         getUsername(identity) {
             if (!identity) return 'Guest';
             return identity.includes('@') ? identity.split('@')[0] : identity;
         },
 
-        /**
-         * Inizializzazione: sincronizza file dal DB, carica IP, avvia session timer
-         */
         init() {
-            // Ascolta il ridimensionamento della finestra per aggiornare lo stato mobile
             window.addEventListener('resize', () => {
                 this.isMobile = window.innerWidth <= 768 || window.innerHeight <= 480;
             });
 
-            // Estrae immediatamente i dati metrici locali per valorizzare l'ambiente di sistema
             if (typeof metricCollector !== 'undefined') {
                 this.metric.data = metricCollector.collect();
             }
 
-            // Sincronizza i file persistenti dal database
             fetch('/api/files')
                 .then(res => res.json())
                 .then(data => {
@@ -96,7 +87,6 @@ const initDesktop = () => {
                 })
                 .catch(err => console.error("Errore sincronizzazione database:", err));
 
-            // Carica asincronamente il README.md statico dal server
             fetch('/static/assets/README.md')
                 .then(res => {
                     if (!res.ok) throw new Error("File README non trovato sul server");
@@ -117,13 +107,11 @@ const initDesktop = () => {
                     }
                 });
 
-            // Carica l'IP pubblico
             fetch('/api/my-ip')
                 .then(res => res.text())
                 .then(ip => { this.userIP = ip; })
                 .catch(() => { this.userIP = '127.0.0.1'; });
 
-            // Gestione della memoria del primo accesso per Clippy con localizzazione
             setTimeout(() => {
                 const userKey = this.isGuest ? 'guest' : this.getUsername(this.currentUser);
                 const storageKey = `solar_visited_${userKey}`;
@@ -135,7 +123,7 @@ const initDesktop = () => {
                     fr: "Bienvenue à Solar City !",
                     es: "¡Bienvenido a Solar City!",
                     de: "Willkommen in Solar City!",
-                    uk: "Welcome to Solar City!",
+                    en: "Welcome to Solar City!",
                     cn: "欢迎来到日光之城 (Solar City)！",
                     jp: "ソーラーシティへようこそ！"
                 };
@@ -145,7 +133,7 @@ const initDesktop = () => {
                     fr: "Bon retour",
                     es: "Bienvenido de nuevo",
                     de: "Willkommen zurück",
-                    uk: "Welcome back",
+                    en: "Welcome back",
                     cn: "欢迎回来",
                     jp: "おかえりなさい"
                 };
@@ -160,7 +148,6 @@ const initDesktop = () => {
                 }
             }, 1000);
 
-            // Sincronizzazione telemetria
             if (!this.isGuest) {
                 setTimeout(() => {
                     if (typeof metricCollector !== 'undefined') {
@@ -186,9 +173,6 @@ const initDesktop = () => {
             }, 1000);
         },
         
-        /**
-         * Formatta il tempo di sessione (h:m:s)
-         */
         formatSessionTime() {
             const h = Math.floor(this.sessionSeconds / 3600);
             const m = Math.floor((this.sessionSeconds % 3600) / 60);
@@ -196,9 +180,6 @@ const initDesktop = () => {
             return `${h}h ${m}m ${s}s`;
         },
 
-        /**
-         * Cambia lingua attiva e aggiorna il cookie di sessione
-         */
         changeLanguage(langCode) {
             if (translationDictionary[langCode]) {
                 this.activeLang = langCode;
@@ -210,7 +191,7 @@ const initDesktop = () => {
                     fr: "Langue changée en Français !",
                     es: "¡Idioma cambiado a Español!",
                     de: "Sprache auf Deutsch geändert!",
-                    uk: "Language changed to English!",
+                    en: "Language changed to English!",
                     cn: "语言已切换为中文！",
                     jp: "言語が日本語に変更されました！"
                 };
@@ -222,9 +203,6 @@ const initDesktop = () => {
             return window.translate(this.activeLang, key);
         },
 
-        /**
-         * Formatta bytes in KB, MB, ecc.
-         */
         formatBytes(bytes) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -233,9 +211,6 @@ const initDesktop = () => {
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         },
 
-        /**
-         * Mostra il context menu al click destro
-         */
         showContextMenu(event, file) {
             this.contextMenu.show = true;
             this.contextMenu.x = event.clientX;
@@ -243,11 +218,7 @@ const initDesktop = () => {
             this.contextMenu.targetFile = file;
         },
 
-        /**
-         * Drag window: permette di trascinare le finestre
-         */
         dragWindow(event, windowObj) {
-            // Se siamo su mobile o lo schermo è piccolo, disattiviamo lo spostamento trascinato
             if (this.isMobile) return;
 
             let startX = event.clientX - windowObj.px;
@@ -264,18 +235,11 @@ const initDesktop = () => {
             }, { once: true });
         },
 
-        /**
-         * Parse markdown usando MarkdownParser
-         */
         parseMarkdown(text) {
             return MarkdownParser.parse(text);
         },
 
-        /**
-         * Gestisce l'avvio del tocco per il long press
-         */
         handleTouchStart(event, file = null) {
-            // Se il tocco avviene all'interno di una finestra o del menu, ignoriamo
             if (event.target.closest('.window-overlay') || event.target.closest('.context-menu')) {
                 return;
             }
@@ -295,9 +259,6 @@ const initDesktop = () => {
             }, 600);
         },
 
-        /**
-         * Cancella il timer se il tocco si sposta o si interrompe
-         */
         handleTouchEnd() {
             if (this.longPressTimer) {
                 clearTimeout(this.longPressTimer);
@@ -305,7 +266,6 @@ const initDesktop = () => {
             }
         },
 
-        // Operazioni file con lock anti-duplicazione
         createFile() {
             if (this.isProcessing) return;
             this.isProcessing = true;
@@ -323,7 +283,6 @@ const initDesktop = () => {
             DesktopFileOps.handleDrop(this, event);
         },
 
-        // App operations
         openFile(file) {
             DesktopApps.openFile(this, file);
         },
@@ -353,7 +312,6 @@ const initDesktop = () => {
     }));
 };
 
-// Inizializza il componente Alpine quando pronto
 if (window.Alpine) {
     initDesktop();
 } else {

@@ -12,19 +12,21 @@ Micro-stack Go + HTMX + Alpine.js + Trhree.js: un'esperienza desktop-like servit
 
 ## ✨ Features
 
-- 🔐 **Autenticazione basata Email** - Registrazione e login con verifica email tramite SMTP
-- 📧 **Token di verifica scadenti** - Link di conferma che scadono dopo 24 ore
-- 🎨 **Desktop-like UI** - Interfaccia desktop virtuale con Alpine.js e Three.js
-- 📁 **File Manager** - Gestione file persistenti con upload/download via API REST
-- 💬 **Clippy AI Agent** - Assistente virtuale con TTS (Text-to-Speech) integrato
-- 📊 **Metric & Telemetry** - Raccolta dati canvas fingerprint e network info (IP geolocation)
-- 🌍 **Network Detection** - Rilevamento IP pubblico, timezone, ASN, VPN/Proxy detection
-- 🖥️ **Multi-app Desktop Environment** - Terminal emulato, Editor, Viewer GLTF, Inspector, Creator
-- 🔄 **Live Session Management** - Sessioni persistenti basate su HMAC-SHA256 con cookie httpOnly
-- 🌐 **API RESTful** - Endpoint per file management, network info, desktop apps
-- 📱 **Responsive Frontend** - Compatibile con desktop e mobile (Alpine.js + HTMX over-the-wire)
-- 🐳 **Containerizzato** - Setup Docker Compose con PostgreSQL, Go app, NGINX reverse proxy
-- 🔒 **HTTPS con TLS** - Certificati auto-generati durante il build
+- 🔐 **Autenticazione basata Email** - Registrazione e login con verifica email tramite SMTP.
+- 📧 **Token di verifica scadenti** - Link di conferma che scadono dopo 24 ore.
+- 🎨 **Desktop-like UI** - Interfaccia desktop virtuale interattiva con Alpine.js e Three.js.
+- 📁 **File Manager** - Gestione file persistenti con upload/download via API REST, drag-and-drop nativo e limiti rigidi sulla dimensione dei payload.
+- 💬 **Clippy AI Agent** - Assistente virtuale 3D animato con tracciamento dinamico dello sguardo del cursore e sintesi vocale (Text-To-Speech) integrata.
+- 🔊 **Speech Synthesis Localizzata** - Integrazione TTS che adatta dinamicamente il motore fonetico del browser alla lingua attiva dell'interfaccia.
+- 📊 **Metric & Telemetry** - Raccolta dati canvas fingerprinting, specifiche WebGL (Vendor/Renderer), core CPU, memoria stimata e coordinate di rete.
+- 🌍 **Network Detection** - Rilevamento asincrono dell'IP pubblico, localizzazione geografica (città, regione, paese) e allineamento multicanale tra informazioni rilevate lato server e lato client.
+- 📝 **Motore Markdown Avanzato** - Parser GFM scritto da zero (`markdown-parser.js`) con supporto per intestazioni auto-slug, tabelle allineate, blocchi alert (GitHub-style callouts), note a piè di pagina con link di ritorno, notazione matematica inline/block ($...$) ed emoji shortcode.
+- 🎨 **Lexical Syntax Highlighter** - Evidenziatore di sintassi nativo integrato nel parser per blocchi di codice Go, JavaScript, Python, C, C++, Bash, Dockerfile, Makefile, HTML e CSS.
+- 🖥️ **Multi-app Desktop Environment** - Terminal emulato, Editor di testo, Visualizzatore Markdown, Inspector di metadati e Creator di file.
+- 🔄 **Live Session Management** - Sessioni persistenti e sicure basate su HMAC-SHA256 con cookie `httpOnly`, `Secure` e flag `SameSiteLax`.
+- 🌐 **Internazionalizzazione (i18n)** - Localizzazione nativa a runtime in 8 lingue (Italiano, Croato, Francese, Spagnolo, Tedesco, Inglese, Cinese, Giapponese) con negoziazione automatica basata sugli header `Accept-Language`, parametri URL e persistenza via cookie.
+- 🐳 **Containerizzato** - Configurazione multi-container pronta all'uso con PostgreSQL 15, Go app (Alpine 3.20) e NGINX come reverse proxy.
+- 🔒 **Sicurezza** - Middleware con header HTTP di difesa preconfigurati (X-Frame-Options DENY, X-Content-Type-Options nosniff, XSS Protection, HSTS).
 
 
 ## Comandi

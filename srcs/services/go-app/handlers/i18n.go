@@ -1,4 +1,3 @@
-// --- internationalization ---
 package handlers
 
 import (
@@ -10,7 +9,7 @@ import (
 )
 
 // SupportedLanguages defines
-var SupportedLanguages = []string{"it", "hr", "fr", "es", "de", "uk", "cn", "jp"}
+var SupportedLanguages = []string{"it", "hr", "fr", "es", "de", "en", "cn", "jp"}
 
 // GetLanguage implements a multi-tier resolution strategy for locating the active language
 func GetLanguage(c echo.Context) string {
@@ -88,7 +87,7 @@ func parseAcceptLanguage(header string) string {
 			case "de":
 				return "de"
 			case "en":
-				return "uk" // UK English mapping
+				return "en" // English mapping
 			case "zh":
 				return "cn" // Simplified Chinese mapping
 			case "ja":

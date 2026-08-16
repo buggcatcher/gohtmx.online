@@ -12,15 +12,14 @@
     <div class="top-navbar">
         <span class="nav-logo">Solar City</span>
         
-        <!-- Menu Utente Minimale -->
         <div class="dropdown-container" x-data="{ openMenu: false }">
             <span class="nav-user" @click="openMenu = !openMenu" x-text="isGuest ? (t('guest_session') + ' ▼') : (t('user_session') + ': ' + currentUser + ' ▼')"></span>
             <div class="dropdown-menu" x-show="openMenu" @click.away="openMenu = false" style="display: none; width: 280px;">
                 <div class="dropdown-header" x-text="isGuest ? t('guest_session') : t('user_session')"></div>
                 
-                <!-- Horizontal Language Switcher inside Dropdown -->
+                <!-- Horizontal Language Switcher (en al posto di uk) -->
                 <div style="display: flex; gap: 4px; justify-content: center; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.15); width: 100%; overflow: hidden; box-sizing: border-box;">
-                    <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'uk', 'cn', 'jp']">
+                    <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'en', 'cn', 'jp']">
                         <button type="button" 
                                 @click="changeLanguage(langId)" 
                                 style="background: transparent !important; -webkit-appearance: none !important; -moz-appearance: none !important; appearance: none !important; font-size: 1.1rem; cursor: pointer; padding: 2px !important; margin: 0 !important; transition: transform 0.2s; display: inline-flex; align-items: center; justify-content: center; border-radius: 0px !important; box-shadow: none !important; width: 28px; height: 22px; box-sizing: border-box !important;"
@@ -52,7 +51,6 @@
         </div>
     </div>
     
-    <!-- Griglia dei File -->
     <div class="desktop-grid" @click="contextMenu.show = false">
         <template x-for="file in files" :key="file.id">
             <div class="desktop-icon" 
@@ -74,10 +72,7 @@
         </template>
     </div>
 
-    <!-- Tasto Destro Menu -->
     {{template "context_menu.html" .}}
-
-    <!-- Applicazioni desktop divise in moduli (templates/apps/) -->
     {{template "editor.html" .}}
     {{template "viewer.html" .}}
     {{template "creator.html" .}}
