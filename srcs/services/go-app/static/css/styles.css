@@ -68,7 +68,7 @@ body {
 /* WORKSPACE GRID */
 .desktop-workspace {
     display: grid;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 42px 1fr;
     width: 100%;
     height: 100%;
     position: relative; /* Ancoraggio rigido per tutte le finestre assolute */
@@ -97,13 +97,14 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 15px;
     justify-content: space-between;
     z-index: 50;
 }
 .nav-logo {
     font-weight: bold;
     color: var(--accent-color);
+    font-size: 0.85rem;
 }
 .desktop-grid {
     padding: 20px;
@@ -303,9 +304,10 @@ body {
     cursor: pointer;
     color: var(--accent-color);
     font-weight: bold;
-    padding: 6px 12px;
+    padding: 4px 8px;
     border-radius: 4px;
     transition: background 0.2s;
+    font-size: 0.8rem;
 }
 .nav-user:hover {
     background: rgba(0, 255, 204, 0.1);

@@ -75,18 +75,6 @@
                     }
                 }">
 
-                <h1 x-text="t('welcome')"></h1>
-
-                <!-- Visual Language Picker (Strict Order: it -> hr -> fr -> es -> de -> uk -> cn -> jp) -->
-                <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;">
-                    <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'uk', 'cn', 'jp']">
-                        <button type="button" @click="changeLanguage(langId)" 
-                                style="background: none; border: none; font-size: 1.6rem; cursor: pointer; padding: 4px; transition: transform 0.2s;"
-                                :style="activeLang === langId ? 'transform: scale(1.3); outline: 1px solid var(--accent-color); border-radius: 4px;' : 'opacity: 0.5;'">
-                            <span x-text="translationDictionary[langId].flagSymbol"></span>
-                        </button>
-                    </template>
-                </div>
                 <h1>GoHtmx V2.1</h1>
                 <div class="auth-card">
                     <div class="tab-switch" :class="tab ? 'tab-switch--' + tab : 'tab-switch--none'" role="tablist" aria-label="Accesso account">

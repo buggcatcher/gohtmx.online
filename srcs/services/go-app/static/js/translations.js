@@ -8,8 +8,8 @@ const translationDictionary = {
         flagSymbol: "🇮🇹",
         strings: {
             welcome: "Benvenuto a Solar City",
-            guest_session: "SESSIONE GUEST",
-            user_session: "SESSIONE UTENTE",
+            guest_session: "GUEST",
+            user_session: "UTENTE",
             logout: "Esci (Logout)",
             login: "Accedi",
             register: "Iscriviti",
@@ -52,7 +52,7 @@ const translationDictionary = {
         strings: {
             welcome: "Dobrodošli u Solar City",
             guest_session: "GOSTUJUĆA SESIJA",
-            user_session: "KORISNIČKA SESIJA",
+            user_session: "KORISNIK",
             logout: "Odjava (Logout)",
             login: "Prijavi se",
             register: "Registriraj se",
@@ -95,7 +95,7 @@ const translationDictionary = {
         strings: {
             welcome: "Bienvenue à Solar City",
             guest_session: "SESSION INVITÉ",
-            user_session: "SESSION UTILISATEUR",
+            user_session: "UTILISATEUR",
             logout: "Se déconnecter",
             login: "Se connecter",
             register: "S'inscrire",
@@ -138,7 +138,7 @@ const translationDictionary = {
         strings: {
             welcome: "Bienvenido a Solar City",
             guest_session: "SESIÓN DE INVITADO",
-            user_session: "SESIÓN DE USUARIO",
+            user_session: "USUARIO",
             logout: "Cerrar sesión",
             login: "Iniciar sesión",
             register: "Registrarse",
@@ -181,7 +181,7 @@ const translationDictionary = {
         strings: {
             welcome: "Willkommen in Solar City",
             guest_session: "GAST-SITZUNG",
-            user_session: "BENUTZER-SITZUNG",
+            user_session: "BENUTZER",
             logout: "Abmelden",
             login: "Anmelden",
             register: "Registrieren",
@@ -224,7 +224,7 @@ const translationDictionary = {
         strings: {
             welcome: "Welcome to Solar City",
             guest_session: "GUEST SESSION",
-            user_session: "USER SESSION",
+            user_session: "USER",
             logout: "Logout",
             login: "Login",
             register: "Register",
@@ -267,7 +267,7 @@ const translationDictionary = {
         strings: {
             welcome: "欢迎来到日光之城 (Solar City)",
             guest_session: "访客会话",
-            user_session: "用户会话",
+            user_session: "用户",
             logout: "注销登录",
             login: "登录",
             register: "注册",
@@ -310,7 +310,7 @@ const translationDictionary = {
         strings: {
             welcome: "ソーラーシティへようこそ",
             guest_session: "ゲストセッション",
-            user_session: "ユーザーセッション",
+            user_session: "ユーザー",
             logout: "ログアウト",
             login: "ログイン",
             register: "新規登録",
