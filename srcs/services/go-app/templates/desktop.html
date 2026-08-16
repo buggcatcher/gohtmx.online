@@ -19,14 +19,14 @@
                 <div class="dropdown-header" x-text="isGuest ? t('guest_session') : t('user_session')"></div>
                 
                 <!-- Horizontal Language Switcher inside Dropdown -->
-                <div style="display: flex; gap: 6px; justify-content: center; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.15);">
+                <div style="display: flex; gap: 4px; justify-content: center; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.15); width: 100%; overflow: hidden; box-sizing: border-box;">
                     <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'uk', 'cn', 'jp']">
                         <button type="button" 
                                 @click="changeLanguage(langId)" 
-                                style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 1.0rem; cursor: pointer; padding: 3px 6px; transition: transform 0.2s, border-color 0.2s; display: inline-flex; align-items: center; justify-content: center; border-radius: 2px; min-width: 24px; height: 20px;"
-                                :style="activeLang === langId ? 'border-color: var(--accent-color); background: rgba(0, 255, 204, 0.15); transform: scale(1.05);' : 'opacity: 0.6;'"
+                                style="background: transparent !important; border: 1px solid transparent !important; -webkit-appearance: none; -moz-appearance: none; appearance: none; font-size: 1.1rem; cursor: pointer; padding: 2px; margin: 0; transition: transform 0.2s, border-color 0.2s; display: inline-flex; align-items: center; justify-content: center; border-radius: 0px; box-shadow: none !important; width: 28px; height: 22px; box-sizing: border-box;"
+                                :style="activeLang === langId ? 'border: 1px solid var(--accent-color) !important; background: rgba(0, 255, 204, 0.1) !important; opacity: 1;' : 'opacity: 0.6;'"
                                 :title="langId.toUpperCase()">
-                            <span x-text="translationDictionary[langId].flagSymbol" style="line-height: 1; font-size: 1.0rem;"></span>
+                            <span x-text="translationDictionary[langId].flagSymbol" style="line-height: 1;"></span>
                         </button>
                     </template>
                 </div>
