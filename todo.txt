@@ -6,18 +6,18 @@ BUGS:
 - benvenuto a solar city texttospeech missing                                 [ ]
 
 
-FOR LATER:
+WORK IN PROGRESS:
 - CV app                                                                      [ ]
 - integrare cowsay con il comando clippysay da terminale attiva clippytalk    [ ] 
-- pinball skin levette                                                        [ ]
+- pinball ar con skin levette                                                 [ ]
 - migliora colori blocco codice in viewer readme                              [ ] 
 - con il terminale showcase librerie e progetti c e cpp ---> wasm             [ ]
 - modifica parametri fingerprint                                              [ ]
 - sistema logica fetch/incrocio/assegnazione città e paese                    [ ]
 - carica file da mobile                                                       [ ]
-- menu option: rinomina                                                       [ ]
-- cartella privata: scegli chi può aprirla                                    [ ]
-- una cartella per utente con depth = 1                                       [ ]
+- menu option: rinomina                                                       [x]
+- cartella privata: scegli chi può aprirla                                    [x]
+- una cartella per utente con depth = 3                                       [x]
 - profilo customizzabile                                                      [ ]
 - iframe di youtube per le playlist degli utenti?                             [ ]
 - cookies                                                                     [ ]
@@ -29,12 +29,177 @@ FOR LATER:
 
 
 
+CARTELLE ED UPLOAD
+
+Questo è un progetto stimolante. L'idea è trasformare un'interfaccia a singola
+vista desktop in un sistema di collaborazione multi-utente — con directory
+personali, condivisioni protette e flussi di comunicazione basati su terminale —
+si integra bene con la filosofia di un'applicazione reattiva server-side (Go +
+HTMX) assistita da uno stato locale reattivo (Alpine.js).
+
+1)  solar_deck: La cartella pubblica predefinita
+2)  La visualizzazione delle cartelle condivise in nuova finestra: Le cartelle
+    condivise da e con altri compaiano su una cartella radice speciale chiamata
+    "shared" che starà come icona/app sul desktop.
+3)  menu option per cartelle Condivise Protette: Cartelle create da un utente
+    che possono essere condivise con altri account registrati (immettendo delle
+    email o nome utenti validi gia registrati per creare con successo la
+    cartella)
+4)  Se provi a condividere una cartella con un indirizzo email o nome utente non
+    registrato, il sistema rileva l'assenza dell'account e propone di inviare
+    una mail di invito
+5)  aggiungere comando whosthere che fa vedere gli ultimi dieci utenti
+    registrati con l'opzione di scorrere indietro nella lista se la lista è
+    maggiore di dieci utenti
+6)  Parsing dei costrutti di redirezione >> (append) che dopo un a capo aggiunge
+    alla fine un paio di tab (o 8-12 spazi) segiuti dal nome utente di chi l'ha
+    eseguito, la data e l'ora.
+7)  Comando mkdir per fa creare una e una sola cartella ad un specifico utente
+    registrato. un mkpdir per le cartelle private che prende argomenti, scritti
+    giusti, o autoselezionanti per scorrimento dove esce un suggerimento degli
+    utenti registrati se si preme tab e se si preme invio o spazio per accettare
+    (come si fa in una tradizionale console) lo prende come argomento.
+8)  Comando upload nel terminale e pulsante dedicato nel menu contestuale per
+    innescare l'input di sistema nativo su iOS, Android e Desktop.
+9)  Quota di cartelle private: Il comando mkdir dovrebbe limitare severamente il
+    numero di cartelle che un utente può creare (0 cartelle per utente guest e 6
+    cartelle per gli utenti registrati, 3 private e tre pubbliche)
+10) Modellazione del Database: attualmente la tabella files non prevede cartelle.
+    Per supportare le nuove caratteristiche potremmo introdurre una tabella 
+    folders e aggiornare la tabella files, dammi qualche consiglio.
+
+Analisi dello Stato Attuale & Best Practices di Sicurezza, l'attuale codebase 
+implementa diverse soluzioni corrette:
+1.  Separazione dei privilegi: Distingui nettamente tra sessione Guest (sola
+    lettura sul client) e sessione autenticata (scrittura sul DB PostgreSQL).
+2.  Sicurezza delle sessioni: L'uso di cookie httpOnly, Secure e SameSiteLax
+    firmati con un HMAC-SHA256 garantisce una buona protezione contro il furto
+    di sessioni elementare.
+3.  Limitazione delle risorse: L'impostazione di http.MaxBytesReader a 42KB per
+    le operazioni sui file protegge da attacchi di tipo Denial of Service (DoS)
+    legati alla memoria RAM sul server.
+
+Prima di procedere alla scrittura del codice, data l'analisi de l'architettura
+esistente, ci sono alcuni aspetti da migliorare prima dell'espansione:
+  - Prevenzione CSRF (Cross-Site Request Forgery): Anche se le API JSON usate
+    per i file leggono l'header X-Session-Email iniettato dal middleware, i form
+    di login e registrazione non implementano un token CSRF. Prima di esporre
+    rotte di condivisione e invito via e-mail, sarà opportuno integrare il
+    middleware CSRF nativo di Echo.
+  - Isolamento dei Tenant: Attualmente, la tabella files non ha un concetto di
+    visibilità. Tutti gli utenti vedono tutti i file tramite ListFilesHandler
+    (SELECT * FROM files). Se implementiamo le cartelle private, la query di
+    selezione dovrà filtrare i record in base alla sessione dell'utente
+    (X-Session-Email), ai permessi di condivisione e all'appartenenza a
+    directory pubbliche o private.
+
+Proposta di Modellazione Database (Punto 10)
+Il database attuale tratta il file system virtuale come un elenco piatto di
+record. Per supportare cartelle pubbliche, private, condivise (shared) e i
+limiti di quota, è necessario ristrutturare lo schema introducendo un'entità
+folders e modificando l'entità files.
+Ecco una proposta di schema SQL relazionale per supportare l'intera logica:
+
+-- Tabella per la gestione delle directory virtuali
+CREATE TABLE IF NOT EXISTS folders (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    parent_id INTEGER REFERENCES folders(id) ON DELETE CASCADE,
+    creator_email TEXT NOT NULL REFERENCES users(email) ON DELETE CASCADE,
+    is_private BOOLEAN NOT NULL DEFAULT false,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    -- Impedisce cartelle con lo stesso nome nello stesso livello gerarchico per singolo utente
+    CONSTRAINT unique_folder_per_parent UNIQUE (parent_id, name, creator_email)
+);
+
+-- Tabella per la condivisione esplicita delle cartelle protette (Punti 3 e 4)
+CREATE TABLE IF NOT EXISTS folder_shares (
+    id SERIAL PRIMARY KEY,
+    folder_id INTEGER NOT NULL REFERENCES folders(id) ON DELETE CASCADE,
+    shared_with_email TEXT NOT NULL REFERENCES users(email) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT unique_share UNIQUE (folder_id, shared_with_email)
+);
+
+-- Modifica della tabella files per legarla a una cartella (opzionale, NULL indica la Root del desktop)
+ALTER TABLE files ADD COLUMN IF NOT EXISTS folder_id INTEGER REFERENCES folders(id) ON DELETE CASCADE;
+
+Logica di navigazione virtuale:
+1.  La Root (/): Corrisponde a folder_id IS NULL o parent_id IS NULL.
+2.  solar_deck (Pubblico predefinito): Una cartella creata automaticamente a
+    livello di sistema (es. con un trigger o in fase di inizializzazione DB) con
+    is_private = false.
+3.  shared (Cartella speciale virtuale): Non esiste fisicamente come riga in
+    folders per ogni utente. Viene generata a runtime dal client o restituita
+    dal server interrogando tutte le righe di folder_shares in cui
+    shared_with_email = utente_corrente.
+
+Il Piano d'Azione Consigliato
+Per implementare queste caratteristiche in modo ordinato ed evitare regressioni
+nello stato Alpine.js o nei template HTML, conviene suddividere lo sviluppo in 3
+fasi contingenti.
+
+Fase 1: Ristrutturazione File System & Quote Database (Punti 1, 9, 10)
+Questa fase si concentra sull'infrastruttura backend e sui comandi di creazione
+di base.
+  - Creazione delle tabelle folders e folder_shares.
+  - Implementazione della logica di controllo quota nel backend (Go):
+      - Un utente Guest non può creare cartelle.
+      - Un utente registrato può creare al massimo 6 cartelle totali (3
+        pubbliche con is_private = false e 3 private con is_private = true).
+  - Implementazione dei comandi base del terminale:
+      - mkdir <nome>: Crea una cartella pubblica nella directory corrente (se
+        nei limiti di quota).
+      - mkpdir <nome>: Crea una cartella privata.
+
+Fase 2: Gestione dell'Interfaccia, Navigazione e Condivisione (Punti 2, 3, 4)
+Questa fase integra le modifiche al database nell'interfaccia utente grafica.
+  - Aggiunta dell'icona speciale shared sul desktop. Al doppio clic, apre una
+    finestra che mostra solo le cartelle a cui l'utente ha accesso tramite la
+    tabella folder_shares.
+  - Aggiunta dell'opzione di condivisione nel menu contestuale (tasto destro o
+    pressione prolungata su una cartella di cui l'utente è proprietario).
+  - Logica di controllo per la condivisione:
+      - Se l'email inserita esiste nella tabella users, viene inserito un record
+        in folder_shares.
+      - Se l'email non esiste, il server restituisce un payload HTMX (o un
+        trigger per Clippy) che notifica l'assenza dell'account e propone di
+        inviare una mail di invito (usando la configurazione SMTP esistente).
+
+Fase 3: Terminale Avanzato & Input Nativo (Punti 5, 6, 7, 8)
+Questa fase perfeziona l'esperienza utente, rendendo l'emulatore del terminale e
+le interazioni con i dispositivi mobili più completi.
+  - Comando whosthere: Interroga la tabella users limitando il risultato a 10
+    utenti ordinati per creazione, mantenendo in memoria l'offset per supportare
+    la paginazione su richiesta dell'utente.
+  - Operatore di append >>: Modifica il parser dei comandi del terminale per
+    intercettare la sintassi <testo> >> <file>. Se l'utente ha i permessi di
+    scrittura, il backend appende il testo formattato: \n\t\t[Utente] -
+    [Timestamp].
+  - Autocompletamento con TAB: Implementazione di un endpoint /api/users/search
+    leggero. Quando l'utente preme il tasto TAB dopo un comando come mkpdir o
+    durante la selezione dei destinatari di una cartella, il client esegue un
+    fetch asincrono compilando dinamicamente il suggerimento in linea.
+  - Pulsante upload e comando terminale: Creazione di un input file nascosto
+    <input type="file" id="native-upload-input" style="display:none"> associato
+    a un trigger JS. Il comando upload sul terminale o il tasto nel menu
+    contestuale simuleranno il clic su questo elemento per aprire il selettore
+    di file nativo su Android, iOS o Desktop, gestendo poi il caricamento
+    tramite la stessa logica di drag & drop esistente.
 
 
-
-
-
-
-
-
+┌────────────────────────────────────────────────────────┐
+│ FASE 1: Ristrutturazione File System & Quote DB        │
+│ (Tabelle folders/shares, limiti quota, mkdir/mkpdir)   │
+└───────────────────────────┬────────────────────────────┘
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ FASE 2: Interfaccia Cartelle & Condivisione/Invito     │
+│ (Icona "shared", UI condivisione, email di invito)     │
+└───────────────────────────┬────────────────────────────┘
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ FASE 3: Terminale & Integrazioni OS                    │
+│ (whosthere, >> append, autocomplete tab, upload native)│
+└────────────────────────────────────────────────────────┘
 
