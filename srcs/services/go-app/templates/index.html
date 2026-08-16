@@ -174,8 +174,10 @@
         <img class="bubble-bg" src="/static/assets/speech_bubble.svg" alt="Fumetto Clippy" />
     </div>
 
-    <!-- Contenitore per il canvas 3D di Clippy -->
-    <div id="clippy-container"></div>
+    <!-- Contenitore per il canvas 3D di Clippy con Hitbox -->
+    <div id="clippy-container">
+        <div id="clippy-hitbox"></div>
+    </div>
 
     <script>
         document.body.addEventListener('userLoggedIn', function(evt) {

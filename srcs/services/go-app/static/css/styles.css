@@ -223,28 +223,36 @@ body {
     position: fixed;
     bottom: 10px;
     right: 10px;
-    width: 155px;
-    height: 155px;
+    width: 220px;
+    height: 220px;
     z-index: 9999;
-    pointer-events: auto; 
+    pointer-events: none; 
 }
 
-/* FUMETTO DI DIALOGO REALE (UNICA DEFINIZIONE AGGIORNATA) */
+/* Hitbox invisibile per intercettare il tocco/click solo sul corpo di Clippy */
+#clippy-hitbox {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 155px;
+    height: 155px;
+    cursor: pointer;
+    pointer-events: auto;
+    background: transparent;
+}
+
+/* FUMETTO DI DIALOGO REALE */
 #clippy-bubble {
     position: fixed;
-    bottom: 110px;
+    bottom: 145px; 
     right: 80px;
     width: 320px;
     height: 180px;
     z-index: 1001;
     display: none;
-    
-    /* Forza l'assenza di sfondi, bordi o ombre HTML per evitare la vecchia squadratura */
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    
-    /* Proprietà di prospettiva per l'effetto di rotazione spaziale coordinato */
     transform-style: preserve-3d;
     perspective: 1000px;
     transition: transform 0.08s ease-out; 

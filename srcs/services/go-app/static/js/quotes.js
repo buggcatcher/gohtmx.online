@@ -313,10 +313,10 @@ const ClippyQuotesManager = {
     },
 
     init() {
-        const container = document.getElementById('clippy-container');
-        if (!container) return;
+        const target = document.getElementById('clippy-hitbox') || document.getElementById('clippy-container');
+        if (!target) return;
 
-        container.addEventListener('click', () => {
+        target.addEventListener('click', () => {
             this.speakRandomQuote();
         });
     },
