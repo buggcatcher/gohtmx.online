@@ -2,7 +2,7 @@
      x-show="editor.show" 
      @contextmenu.stop
      :style="isMobile 
-        ? 'position: fixed; left: 0px; top: 50px; width: 100%; height: calc(100% - 42px); border-radius: 0;' 
+        ? 'position: fixed; left: 0px; top: 42px; width: 100%; height: calc(100% - 42px); border-radius: 0;' 
         : 'position: absolute; left: ' + editor.px + 'px; top: ' + editor.py + 'px; width: 680px; height: 440px;'"
      style="display: none;">
     <div class="window-header" @mousedown="dragWindow($event, editor)">

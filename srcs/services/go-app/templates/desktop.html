@@ -23,10 +23,12 @@
                     <template x-for="langId in ['it', 'hr', 'fr', 'es', 'de', 'uk', 'cn', 'jp']">
                         <button type="button" 
                                 @click="changeLanguage(langId)" 
-                                style="background: transparent !important; border: 1px solid transparent !important; -webkit-appearance: none; -moz-appearance: none; appearance: none; font-size: 1.1rem; cursor: pointer; padding: 2px; margin: 0; transition: transform 0.2s, border-color 0.2s; display: inline-flex; align-items: center; justify-content: center; border-radius: 0px; box-shadow: none !important; width: 28px; height: 22px; box-sizing: border-box;"
-                                :style="activeLang === langId ? 'border: 1px solid var(--accent-color) !important; background: rgba(0, 255, 204, 0.1) !important; opacity: 1;' : 'opacity: 0.6;'"
+                                style="background: transparent !important; -webkit-appearance: none !important; -moz-appearance: none !important; appearance: none !important; font-size: 1.1rem; cursor: pointer; padding: 2px !important; margin: 0 !important; transition: transform 0.2s; display: inline-flex; align-items: center; justify-content: center; border-radius: 0px !important; box-shadow: none !important; width: 28px; height: 22px; box-sizing: border-box !important;"
+                                :style="activeLang === langId 
+                                    ? 'border: 1px solid var(--accent-color) !important; background: rgba(0, 255, 204, 0.15) !important; opacity: 1;' 
+                                    : 'border: 1px solid rgba(255, 255, 255, 0.15) !important; background: rgba(0, 0, 0, 0.4) !important; opacity: 0.6;'"
                                 :title="langId.toUpperCase()">
-                            <span x-text="translationDictionary[langId].flagSymbol" style="line-height: 1;"></span>
+                            <span x-text="translationDictionary[langId].flagSymbol" style="line-height: 1; display: inline-block;"></span>
                         </button>
                     </template>
                 </div>
