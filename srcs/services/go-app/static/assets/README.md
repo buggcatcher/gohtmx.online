@@ -1,6 +1,6 @@
 # Solar City: uno spazio di collaborazione digitale
 
-Benvenuto in **Solar City**, qua si possono condividere file.
+Benvenuto in **Solar City**, qua si possono condividere file di testo.
 Quali? Solamente `*.md` e `*.txt` per ora. Se vi facessi caricare `*.pdf` mi buchereste in 0,2 secondi.
 
 Questo file serve solo per mostrare le caratteristiche sintattiche markdown che si possono utilizzare qui.

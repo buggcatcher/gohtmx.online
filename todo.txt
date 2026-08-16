@@ -8,8 +8,6 @@ BUGS:
 
 FOR LATER:
 - CV app                                                                      [ ]
-- help fa vedere lista comandi senza descrizioni, scrivere una cosa tipo:
-  help <argument> to display command description                              [ ]
 - integrare cowsay con il comando clippysay da terminale attiva clippytalk    [ ] 
 - pinball skin levette                                                        [ ]
 - migliora colori blocco codice in viewer readme                              [ ] 
@@ -19,7 +17,6 @@ FOR LATER:
 - carica file da mobile                                                       [ ]
 - menu option: rinomina                                                       [ ]
 - cartella privata: scegli chi può aprirla                                    [ ]
-- comando terminale: info                                                     [ ]
 - una cartella per utente con depth = 1                                       [ ]
 - profilo customizzabile                                                      [ ]
 - iframe di youtube per le playlist degli utenti?                             [ ]

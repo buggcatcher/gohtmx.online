@@ -112,7 +112,8 @@ const DesktopApps = {
             rawInput,
             desktop.files,
             desktop.userIP,
-            desktop.currentUser
+            desktop.currentUser,
+            desktop.activeLang
         );
 
         if (output === '__CLEAR_SIGNAL__') {
