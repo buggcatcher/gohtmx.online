@@ -2,6 +2,9 @@
     --bg-color: #121212;
     --accent-color: #00ffcc;
 }
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 body {
     margin: 0;
     padding: 0;
@@ -111,8 +114,11 @@ body {
     display: flex;
     gap: 20px;
     align-items: flex-start;
+    align-content: flex-start;
     flex-wrap: wrap;
     height: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 .desktop-icon {
     display: flex;
@@ -768,6 +774,25 @@ textarea {
     .input-field,
     .terminal-input {
         font-size: 16px !important;
+    }
+}
+
+/* ottimizzazione layout icone per dispositivi mobili */
+@media screen and (max-width: 768px) {
+    .desktop-grid {
+        padding: 12px;
+        gap: 12px;
+    }
+    .desktop-icon {
+        width: 80px;
+        padding: 6px;
+    }
+    .icon-symbol {
+        font-size: 2rem;
+    }
+    .desktop-icon span {
+        font-size: 0.75rem;
+        margin-top: 4px;
     }
 }
 
